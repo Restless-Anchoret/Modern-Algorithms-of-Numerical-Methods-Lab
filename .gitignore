@@ -12,3 +12,5 @@
 hs_err_pid*
 /MANMLab/.idea/
 /MANMLab/MANMLab.iml
+/MANMLab/target/
+/MANMLabSwing/target/
