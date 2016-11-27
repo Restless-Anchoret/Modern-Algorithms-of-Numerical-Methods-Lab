@@ -4,19 +4,19 @@ import java.util.Objects;
 
 public class Edge {
 
-    private final Point a,b;
+    private final int firstIndex, secondIndex;
 
-    public Edge(Point a, Point b) {
-        this.a = a;
-        this.b = b;
+    public Edge(int firstIndex, int secondIndex) {
+        this.firstIndex = firstIndex;
+        this.secondIndex = secondIndex;
     }
 
-    public Point getA() {
-        return a;
+    public int getFirstIndex() {
+        return firstIndex;
     }
 
-    public Point getB() {
-        return b;
+    public int getSecondIndex() {
+        return secondIndex;
     }
 
     @Override
@@ -24,20 +24,20 @@ public class Edge {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Edge edge = (Edge) o;
-        return Objects.equals(a, edge.a) &&
-                Objects.equals(b, edge.b);
+        return Objects.equals(this.firstIndex, edge.firstIndex) &&
+                Objects.equals(this.secondIndex, edge.secondIndex);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(a, b);
+        return Objects.hash(firstIndex, secondIndex);
     }
 
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("Edge{");
-        sb.append("a=").append(a);
-        sb.append(", b=").append(b);
+        sb.append("firstIndex=").append(firstIndex);
+        sb.append(", secondIndex=").append(secondIndex);
         sb.append('}');
         return sb.toString();
     }

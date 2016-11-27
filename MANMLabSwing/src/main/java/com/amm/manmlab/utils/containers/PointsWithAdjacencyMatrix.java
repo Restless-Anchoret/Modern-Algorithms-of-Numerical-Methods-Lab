@@ -3,13 +3,11 @@ package com.amm.manmlab.utils.containers;
 import com.amm.manmlab.errors.ErrorMessages;
 import com.amm.manmlab.utils.primitives.Point;
 
-import java.util.LinkedList;
-import java.util.List;
 
 public class PointsWithAdjacencyMatrix {
 
-    public boolean[][] adjacencyMatrix;
-    public Point[] points;
+    private boolean[][] adjacencyMatrix;
+    private Point[] points;
 
     public PointsWithAdjacencyMatrix(Point[] points, boolean[][] adjacencyMatrix) {
         if (points.length != adjacencyMatrix.length ||
@@ -20,5 +18,17 @@ public class PointsWithAdjacencyMatrix {
         this.points = points;
     }
 
+    public boolean[][] getAdjacencyMatrix() {
+        return adjacencyMatrix;
+    }
+
+    public Point[] getPoints() {
+        return points;
+    }
+
+    @Override
+    public String toString() {
+        return "PointsWithAdjacencyMatrix{" + "adjacencyMatrix=" + adjacencyMatrix + ", points=" + points + '}';
+    }
 
 }

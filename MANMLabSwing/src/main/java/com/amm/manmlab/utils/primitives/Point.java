@@ -4,22 +4,24 @@ import java.util.Objects;
 
 public class Point {
 
-    private int x, y;
+    private static final double EPSILON = 1e-8;
+    
+    private double x, y;
 
-    public Point(int x, int y) {
+    public Point(double x, double y) {
         this.x = x;
         this.y = y;
     }
 
-    public int getX() {
+    public double getX() {
         return x;
     }
 
-    public int getY() {
+    public double getY() {
         return y;
     }
 
-    public void moveTo(int x, int y){
+    public void moveTo(double x, double y){
         this.x = x;
         this.y = y;
     }
@@ -29,8 +31,8 @@ public class Point {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Point point = (Point) o;
-        return x == point.x &&
-                y == point.y;
+        return Math.abs(this.x - point.x) < EPSILON &&
+                Math.abs(this.y - point.y) < EPSILON;
     }
 
     @Override
@@ -46,4 +48,5 @@ public class Point {
         sb.append('}');
         return sb.toString();
     }
+    
 }

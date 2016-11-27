@@ -2,10 +2,10 @@ package com.amm.manmlab.utils.containers;
 
 public class FiniteElementMethodInput {
 
-    public PointsWithAdjacencyMatrix pointsWithAdjacencyMatrix;
-    public Double poissonsRatio;
-    public Double youngsModulus;
-    public Double[] borderConditions;
+    private PointsWithAdjacencyMatrix pointsWithAdjacencyMatrix;
+    private Double poissonsRatio;
+    private Double youngsModulus;
+    private Double[] borderConditions;
 
     public FiniteElementMethodInput(PointsWithAdjacencyMatrix pointsWithAdjacencyMatrix,
                                     Double poissonsRatio,
@@ -16,4 +16,26 @@ public class FiniteElementMethodInput {
         this.youngsModulus = youngsModulus;
         this.borderConditions = borderConditions;
     }
+
+    public PointsWithAdjacencyMatrix getPointsWithAdjacencyMatrix() {
+        return pointsWithAdjacencyMatrix;
+    }
+
+    public Double getPoissonsRatio() {
+        return poissonsRatio;
+    }
+
+    public Double getYoungsModulus() {
+        return youngsModulus;
+    }
+
+    public Double[] getBorderConditions() {
+        return borderConditions;
+    }
+
+    @Override
+    public String toString() {
+        return "FiniteElementMethodInput{" + "pointsWithAdjacencyMatrix=" + pointsWithAdjacencyMatrix + ", poissonsRatio=" + poissonsRatio + ", youngsModulus=" + youngsModulus + ", borderConditions=" + borderConditions + '}';
+    }
+    
 }
