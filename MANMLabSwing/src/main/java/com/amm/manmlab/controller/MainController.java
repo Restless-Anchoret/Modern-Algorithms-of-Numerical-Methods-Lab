@@ -1,15 +1,20 @@
 package com.amm.manmlab.controller;
 
+import com.amm.manmlab.interfaces.FileInput;
+import com.amm.manmlab.interfaces.FileInputLoader;
 import com.amm.manmlab.ui.MainFrame;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
 public class MainController {
 
+    private FileInputLoader fileInputLoader;
     private MainFrame mainFrame;
+    
+    private FileInput fileInput;
 
-    public MainController() {
-        
+    public MainController(FileInputLoader fileInputLoader) {
+        this.fileInputLoader = fileInputLoader;
     }
     
     public void startApplication() {
@@ -39,7 +44,7 @@ public class MainController {
     }
     
     private void initData() {
-        
+        fileInput = fileInputLoader.loadInputFromFile();
     }
 
 }
