@@ -20,6 +20,10 @@ public class ImagePanelListenerSupport {
         imagePanelListeners.remove(listener);
     }
     
+    public void removeAllImagePanelListeners() {
+        imagePanelListeners.clear();
+    }
+    
     public void fireMouseLeftClicked(ImagePanel imagePanel, int x, int y, int width, int height) {
         for (ImagePanelListener listener: imagePanelListeners) {
             listener.mouseLeftClicked(imagePanel, x, y, width, height);
@@ -35,6 +39,30 @@ public class ImagePanelListenerSupport {
     public void fireMouseRightClicked(ImagePanel imagePanel, int x, int y, int width, int height) {
         for (ImagePanelListener listener: imagePanelListeners) {
             listener.mouseLeftClicked(imagePanel, x, y, width, height);
+        }
+    }
+    
+    public void fireMouseLeftDragged(ImagePanel imagePanel, int x, int y, int width, int height) {
+        for (ImagePanelListener listener: imagePanelListeners) {
+            listener.mouseLeftDragged(imagePanel, x, y, width, height);
+        }
+    }
+    
+    public void fireMouseMiddleDragged(ImagePanel imagePanel, int x, int y, int width, int height) {
+        for (ImagePanelListener listener: imagePanelListeners) {
+            listener.mouseMiddleDragged(imagePanel, x, y, width, height);
+        }
+    }
+    
+    public void fireMouseRightDragged(ImagePanel imagePanel, int x, int y, int width, int height) {
+        for (ImagePanelListener listener: imagePanelListeners) {
+            listener.mouseRightDragged(imagePanel, x, y, width, height);
+        }
+    }
+    
+    public void fireMouseMovedWithoutPressedButtons(ImagePanel imagePanel, int x, int y, int width, int height) {
+        for (ImagePanelListener listener: imagePanelListeners) {
+            listener.mouseMovedWithoutPressedButtons(imagePanel, x, y, width, height);
         }
     }
     

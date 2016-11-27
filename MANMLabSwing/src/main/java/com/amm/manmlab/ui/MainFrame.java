@@ -1,5 +1,6 @@
 package com.amm.manmlab.ui;
 
+import javax.swing.JButton;
 import javax.swing.JFrame;
 
 public class MainFrame extends JFrame {
@@ -73,5 +74,17 @@ public class MainFrame extends JFrame {
     private com.amm.manmlab.ui.ImagePanel imagePanel;
     private javax.swing.JButton stepBackButton;
     // End of variables declaration//GEN-END:variables
+
+    public DialogPanel getDialogPanel() {
+        return dialogPanel;
+    }
+
+    public ImagePanel getImagePanel() {
+        return imagePanel;
+    }
+
+    public JButton getStepBackButton() {
+        return stepBackButton;
+    }
 
 }

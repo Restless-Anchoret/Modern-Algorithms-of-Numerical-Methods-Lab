@@ -16,10 +16,16 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="headerLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="281" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="headerLabel" min="-2" max="-2" attributes="0"/>
+                  <Component id="autoTriangulationButton" alignment="0" max="32767" attributes="0"/>
+                  <Component id="cleanButton" alignment="0" max="32767" attributes="0"/>
+                  <Component id="readFileButton" alignment="0" max="32767" attributes="0"/>
+                  <Component id="manualTriangulationButton" alignment="0" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace pref="186" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -28,7 +34,15 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="headerLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="278" max="32767" attributes="0"/>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Component id="cleanButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="readFileButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="autoTriangulationButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="manualTriangulationButton" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="114" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -37,6 +51,27 @@
     <Component class="javax.swing.JLabel" name="headerLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x423;&#x441;&#x442;&#x430;&#x43d;&#x43e;&#x432;&#x43a;&#x430; &#x433;&#x440;&#x430;&#x43d;&#x438;&#x446;&#x44b;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="cleanButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x41e;&#x447;&#x438;&#x441;&#x442;&#x438;&#x442;&#x44c; &#x43f;&#x43e;&#x43b;&#x435;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="readFileButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x421;&#x447;&#x438;&#x442;&#x430;&#x442;&#x44c; &#x438;&#x437; &#x444;&#x430;&#x439;&#x43b;&#x430;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="autoTriangulationButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x410;&#x432;&#x442;&#x43e;&#x43c;&#x430;&#x442;&#x438;&#x447;&#x435;&#x441;&#x43a;&#x430;&#x44f; &#x442;&#x440;&#x438;&#x430;&#x43d;&#x433;&#x443;&#x43b;&#x44f;&#x446;&#x438;&#x44f;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="manualTriangulationButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x420;&#x443;&#x447;&#x43d;&#x430;&#x44f; &#x442;&#x440;&#x438;&#x430;&#x43d;&#x433;&#x443;&#x43b;&#x44f;&#x446;&#x438;&#x44f;"/>
+        <Property name="enabled" type="boolean" value="false"/>
       </Properties>
     </Component>
   </SubComponents>
