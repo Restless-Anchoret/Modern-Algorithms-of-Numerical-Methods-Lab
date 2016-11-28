@@ -1,5 +1,8 @@
 package com.amm.manmlab.main;
 
+import com.amm.manmlab.algorithms.cuthillmckee.CuthillMcKeeAlgorithm;
+import com.amm.manmlab.algorithms.finiteelement.FiniteElementMethodAlgorithm;
+import com.amm.manmlab.algorithms.triangulation.TriangulationAlgorithm;
 import com.amm.manmlab.controller.MainController;
 import com.amm.manmlab.utils.fileinput.FileInputLoaderImplementation;
 import org.slf4j.Logger;
@@ -15,7 +18,10 @@ public class Main {
         LOG.info("Start main...");
         EventQueue.invokeLater(() -> {
             MainController mainController = new MainController(
-                    new FileInputLoaderImplementation()
+                    new FileInputLoaderImplementation(),
+                    new TriangulationAlgorithm(),
+                    new CuthillMcKeeAlgorithm(),
+                    new FiniteElementMethodAlgorithm()
             );
             mainController.startApplication();
         });

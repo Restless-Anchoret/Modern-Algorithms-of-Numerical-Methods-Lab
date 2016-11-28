@@ -11,25 +11,23 @@ import java.util.List;
 
 public class SettingEdgeController implements ImagePanelListener {
 
-    private PointsWithEdges pointsWithEdges;
-    private int chosenPointIndex = -1;
-    
-    public SettingEdgeController() {
-    }
+    private SimplePaintStrategy paintStrategy;
 
-    public SettingEdgeController(PointsWithEdges pointsWithEdges) {
-        this.pointsWithEdges = pointsWithEdges;
+    public SettingEdgeController(SimplePaintStrategy paintStrategy) {
+        this.paintStrategy = paintStrategy;
     }
     
     @Override
     public void mouseLeftClicked(ImagePanel imagePanel, int x, int y, int width, int height) {
+        PointsWithEdges pointsWithEdges = paintStrategy.getPointsWithEdges();
+        int chosenPointIndex = paintStrategy.getChosenPointIndex();
         int pointIndex = findPointIndex(x, y);
         if (chosenPointIndex == -1) {
             if (pointIndex == -1) {
                 Point newPoint = new Point(x, y);
                 pointsWithEdges.getPoints().add(newPoint);
             } else {
-                chosenPointIndex = pointIndex;
+                paintStrategy.setChosenPointIndex(pointIndex);
             }
         } else {
             if (pointIndex == -1) {
@@ -37,11 +35,11 @@ public class SettingEdgeController implements ImagePanelListener {
                 pointsWithEdges.getPoints().add(newPoint);
                 Edge newEdge = new Edge(chosenPointIndex, pointsWithEdges.getPoints().size() - 1);
                 pointsWithEdges.getEdges().add(newEdge);
-            } else {
+            } else if (pointIndex != chosenPointIndex) {
                 Edge newEdge = new Edge(chosenPointIndex, pointIndex);
                 pointsWithEdges.getEdges().add(newEdge);
             }
-            chosenPointIndex = -1;
+            paintStrategy.setChosenPointIndex(-1);
         }
         imagePanel.repaint();
     }
@@ -52,6 +50,8 @@ public class SettingEdgeController implements ImagePanelListener {
 
     @Override
     public void mouseRightClicked(ImagePanel imagePanel, int x, int y, int width, int height) {
+        paintStrategy.setChosenPointIndex(-1);
+        PointsWithEdges pointsWithEdges = paintStrategy.getPointsWithEdges();
         int pointIndex = findPointIndex(x, y);
         if (pointIndex != -1) {
             List<Edge> newEdges = new ArrayList<>();
@@ -78,12 +78,12 @@ public class SettingEdgeController implements ImagePanelListener {
 
     @Override
     public void mouseLeftDragged(ImagePanel imagePanel, int previousX, int previousY, int x, int y, int width, int height) {
-        chosenPointIndex = -1;
+        paintStrategy.setChosenPointIndex(-1);
         int pointIndex = findPointIndex(previousX, previousY);
         if (pointIndex == -1) {
             return;
         }
-        pointsWithEdges.getPoints().get(pointIndex).moveTo(x, y);
+        paintStrategy.getPointsWithEdges().getPoints().set(pointIndex, new Point(x, y));
         imagePanel.repaint();
     }
 
@@ -97,10 +97,13 @@ public class SettingEdgeController implements ImagePanelListener {
 
     @Override
     public void mouseMovedWithoutPressedButtons(ImagePanel imagePanel, int previousX, int previousY, int x, int y, int width, int height) {
-        // todo: make new edge displayed
+        paintStrategy.setCursorX(x);
+        paintStrategy.setCursorY(y);
+        imagePanel.repaint();
     }
     
     private int findPointIndex(int x, int y) {
+        PointsWithEdges pointsWithEdges = paintStrategy.getPointsWithEdges();
         for (int i = 0; i < pointsWithEdges.getPoints().size(); i++) {
             Point point = pointsWithEdges.getPoints().get(i);
             double diffX = x - point.getX();
@@ -114,8 +117,29 @@ public class SettingEdgeController implements ImagePanelListener {
     }
 
     private int findEdgeIndex(int x, int y) {
-        // todo
+        PointsWithEdges pointsWithEdges = paintStrategy.getPointsWithEdges();
+        for (int edgeIndex = 0; edgeIndex < pointsWithEdges.getEdges().size(); edgeIndex++) {
+            Edge edge = pointsWithEdges.getEdges().get(edgeIndex);
+            Point firstPoint = pointsWithEdges.getPoints().get(edge.getFirstIndex());
+            Point secondPoint = pointsWithEdges.getPoints().get(edge.getSecondIndex());
+            double a = secondPoint.getY() - firstPoint.getY();
+            double b = firstPoint.getX() - secondPoint.getX();
+            double c = firstPoint.getY() * (secondPoint.getX() - firstPoint.getX()) +
+                    firstPoint.getX() * (firstPoint.getY() - secondPoint.getY());
+            double d = Math.abs(a * x + b * y + c) / Math.sqrt(a * a + b * b);
+            if (d <= LabConstants.EDGE_CAPTURE_DISTANCE &&
+                    isInRange(firstPoint.getX(), x, secondPoint.getX(), LabConstants.EDGE_CAPTURE_DISTANCE) &&
+                    isInRange(firstPoint.getY(), y, secondPoint.getY(), LabConstants.EDGE_CAPTURE_DISTANCE)) {
+                return edgeIndex;
+            }
+        }
         return -1;
+    }
+    
+    private boolean isInRange(double firstBound, double number, double secondBound, double fringe) {
+        double smallBound = Math.min(firstBound, secondBound) - fringe;
+        double bigBound = Math.max(firstBound, secondBound) + fringe;
+        return smallBound <= number && number <= bigBound;
     }
     
 }

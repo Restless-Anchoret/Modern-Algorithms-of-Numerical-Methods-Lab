@@ -1,7 +1,10 @@
 package com.amm.manmlab.controller;
 
+import com.amm.manmlab.algorithms.Algorithm;
 import com.amm.manmlab.utils.fileinput.FileInputLoader;
 import com.amm.manmlab.ui.MainFrame;
+import com.amm.manmlab.utils.containers.FiniteElementMethodInput;
+import com.amm.manmlab.utils.containers.PointsWithAdjacencyMatrix;
 import com.amm.manmlab.utils.containers.PointsWithEdges;
 import java.util.Collections;
 import javax.swing.UIManager;
@@ -10,12 +13,21 @@ import javax.swing.UnsupportedLookAndFeelException;
 public class MainController {
 
     private FileInputLoader fileInputLoader;
+    private Algorithm<PointsWithEdges, PointsWithEdges> triangulationAlgorithm;
+    private Algorithm<PointsWithAdjacencyMatrix, PointsWithAdjacencyMatrix> renumberingAlgorithm;
+    private Algorithm<FiniteElementMethodInput, Double[]> finiteElementMethodAlgorithm;
     private MainFrame mainFrame;
     
     private PointsWithEdges initialPointsWithEdges = new PointsWithEdges(Collections.EMPTY_LIST, Collections.EMPTY_LIST);
 
-    public MainController(FileInputLoader fileInputLoader) {
+    public MainController(FileInputLoader fileInputLoader,
+            Algorithm<PointsWithEdges, PointsWithEdges> triangulationAlgorithm,
+            Algorithm<PointsWithAdjacencyMatrix, PointsWithAdjacencyMatrix> renumberingAlgorithm,
+            Algorithm<FiniteElementMethodInput, Double[]> finiteElementMethodAlgorithm) {
         this.fileInputLoader = fileInputLoader;
+        this.triangulationAlgorithm = triangulationAlgorithm;
+        this.renumberingAlgorithm = renumberingAlgorithm;
+        this.finiteElementMethodAlgorithm = finiteElementMethodAlgorithm;
     }
     
     public void startApplication() {
@@ -45,8 +57,9 @@ public class MainController {
     }
     
     private void initListeners() {
-        mainFrame.getImagePanel().addImagePanelListener(new SettingEdgeController(initialPointsWithEdges));
-        mainFrame.getImagePanel().setImagePanelPaintStrategy(new SimplePaintStrategy(initialPointsWithEdges));
+        SimplePaintStrategy paintStrategy = new SimplePaintStrategy(initialPointsWithEdges);
+        mainFrame.getImagePanel().addImagePanelListener(new SettingEdgeController(paintStrategy));
+        mainFrame.getImagePanel().setImagePanelPaintStrategy(paintStrategy);
     }
 
 }
