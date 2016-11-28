@@ -17,6 +17,8 @@ public class ImagePanel extends JPanel {
     
     private ImagePanelListenerSupport imagePanelListenerSupport = new ImagePanelListenerSupport();
     private ImagePanelPaintStrategy imagePanelPaintStrategy = (graphics, width, height) -> { };
+    private int previousX;
+    private int previousY;
     
     public ImagePanel() {
         initComponents();
@@ -47,12 +49,13 @@ public class ImagePanel extends JPanel {
                 int y = event.getY();
                 int width = getWidth();
                 int height = getHeight();
-                if ((event.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) {
-                    imagePanelListenerSupport.fireMouseLeftClicked(ImagePanel.this, x, y, width, height);
-                } else if ((event.getModifiersEx() & InputEvent.BUTTON2_DOWN_MASK) != 0) {
-                    imagePanelListenerSupport.fireMouseMiddleClicked(ImagePanel.this, x, y, width, height);
-                } else if ((event.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0) {
-                    imagePanelListenerSupport.fireMouseRightClicked(ImagePanel.this, x, y, width, height);
+                switch (event.getButton()) {
+                    case MouseEvent.BUTTON1:
+                        imagePanelListenerSupport.fireMouseLeftClicked(ImagePanel.this, x, y, width, height); break;
+                    case MouseEvent.BUTTON2:
+                        imagePanelListenerSupport.fireMouseMiddleClicked(ImagePanel.this, x, y, width, height); break;
+                    case MouseEvent.BUTTON3:
+                        imagePanelListenerSupport.fireMouseRightClicked(ImagePanel.this, x, y, width, height); break;
                 }
             }
         });
@@ -63,11 +66,11 @@ public class ImagePanel extends JPanel {
                 int y = event.getY();
                 int width = getWidth();
                 int height = getHeight();
-                if ((event.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) == 0 &&
-                        (event.getModifiersEx() & InputEvent.BUTTON2_DOWN_MASK) == 0 &&
-                        (event.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) == 0) {
-                    imagePanelListenerSupport.fireMouseMovedWithoutPressedButtons(ImagePanel.this, x, y, width, height);
+                if (event.getButton() == MouseEvent.NOBUTTON) {
+                    imagePanelListenerSupport.fireMouseMovedWithoutPressedButtons(ImagePanel.this, previousX, previousY, x, y, width, height);
                 }
+                previousX = event.getX();
+                previousY = event.getY();
             }
             @Override
             public void mouseDragged(MouseEvent event) {
@@ -76,12 +79,14 @@ public class ImagePanel extends JPanel {
                 int width = getWidth();
                 int height = getHeight();
                 if ((event.getModifiersEx() & InputEvent.BUTTON1_DOWN_MASK) != 0) {
-                    imagePanelListenerSupport.fireMouseLeftDragged(ImagePanel.this, x, y, width, height);
+                    imagePanelListenerSupport.fireMouseLeftDragged(ImagePanel.this, previousX, previousY, x, y, width, height);
                 } else if ((event.getModifiersEx() & InputEvent.BUTTON2_DOWN_MASK) != 0) {
-                    imagePanelListenerSupport.fireMouseMiddleDragged(ImagePanel.this, x, y, width, height);
+                    imagePanelListenerSupport.fireMouseMiddleDragged(ImagePanel.this, previousX, previousY, x, y, width, height);
                 } else if ((event.getModifiersEx() & InputEvent.BUTTON3_DOWN_MASK) != 0) {
-                    imagePanelListenerSupport.fireMouseRightDragged(ImagePanel.this, x, y, width, height);
+                    imagePanelListenerSupport.fireMouseRightDragged(ImagePanel.this, previousX, previousY, x, y, width, height);
                 }
+                previousX = event.getX();
+                previousY = event.getY();
             }
         });
     }

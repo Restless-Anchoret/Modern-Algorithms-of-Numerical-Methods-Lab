@@ -45,7 +45,7 @@ public class MainController {
     }
     
     private void initListeners() {
-        mainFrame.getImagePanel().addImagePanelListener(new SettingEdgeController());
+        mainFrame.getImagePanel().addImagePanelListener(new SettingEdgeController(initialPointsWithEdges));
         mainFrame.getImagePanel().setImagePanelPaintStrategy(new SimplePaintStrategy(initialPointsWithEdges));
     }
 
