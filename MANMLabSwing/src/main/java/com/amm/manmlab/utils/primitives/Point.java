@@ -6,7 +6,8 @@ public class Point {
 
     private static final double EPSILON = 1e-8;
     
-    private double x, y;
+    private final double x;
+    private final double y;
 
     public Point(double x, double y) {
         this.x = x;
@@ -19,11 +20,6 @@ public class Point {
 
     public double getY() {
         return y;
-    }
-
-    public void moveTo(double x, double y){
-        this.x = x;
-        this.y = y;
     }
 
     @Override
@@ -47,6 +43,11 @@ public class Point {
         sb.append(", y=").append(y);
         sb.append('}');
         return sb.toString();
+    }
+
+    @Override
+    public Point clone() {
+        return new Point(x, y);
     }
     
 }

@@ -48,4 +48,10 @@ public class Element {
     public int hashCode() {
         return Objects.hash(i, j, k);
     }
+
+    @Override
+    public Element clone() {
+        return new Element(i, j, k);
+    }
+    
 }

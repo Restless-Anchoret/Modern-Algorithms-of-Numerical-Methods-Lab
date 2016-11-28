@@ -2,7 +2,8 @@ package com.amm.manmlab.main;
 
 import com.amm.manmlab.algorithms.cuthillmckee.CuthillMcKeeAlgorithm;
 import com.amm.manmlab.algorithms.finiteelement.FiniteElementMethodAlgorithm;
-import com.amm.manmlab.algorithms.triangulation.TriangulationAlgorithm;
+import com.amm.manmlab.algorithms.validation.PolygonGridValidator;
+import com.amm.manmlab.algorithms.validation.TriangulationGridValidator;
 import com.amm.manmlab.controller.MainController;
 import com.amm.manmlab.utils.fileinput.FileInputLoaderImplementation;
 import org.slf4j.Logger;
@@ -19,9 +20,11 @@ public class Main {
         EventQueue.invokeLater(() -> {
             MainController mainController = new MainController(
                     new FileInputLoaderImplementation(),
-                    new TriangulationAlgorithm(),
+                    pointsWithEdges -> pointsWithEdges.clone(),
                     new CuthillMcKeeAlgorithm(),
-                    new FiniteElementMethodAlgorithm()
+                    new FiniteElementMethodAlgorithm(),
+                    new PolygonGridValidator(),
+                    new TriangulationGridValidator()
             );
             mainController.startApplication();
         });

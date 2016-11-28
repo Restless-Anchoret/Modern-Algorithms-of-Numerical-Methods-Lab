@@ -84,6 +84,8 @@ public class SettingEdgeController implements ImagePanelListener {
             return;
         }
         paintStrategy.getPointsWithEdges().getPoints().set(pointIndex, new Point(x, y));
+        paintStrategy.setCursorX(x);
+        paintStrategy.setCursorY(y);
         imagePanel.repaint();
     }
 

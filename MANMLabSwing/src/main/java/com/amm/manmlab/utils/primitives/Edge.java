@@ -41,4 +41,10 @@ public class Edge {
         sb.append('}');
         return sb.toString();
     }
+    
+    @Override
+    public Edge clone() {
+        return new Edge(firstIndex, secondIndex);
+    }
+    
 }

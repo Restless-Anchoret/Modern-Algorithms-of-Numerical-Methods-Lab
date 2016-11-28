@@ -1,5 +1,6 @@
 package com.amm.manmlab.ui;
 
+import javax.swing.JButton;
 import javax.swing.JPanel;
 
 public class SettingEdgeDialog extends JPanel {
@@ -67,5 +68,21 @@ public class SettingEdgeDialog extends JPanel {
     private javax.swing.JButton manualTriangulationButton;
     private javax.swing.JButton readFileButton;
     // End of variables declaration//GEN-END:variables
+
+    public JButton getAutoTriangulationButton() {
+        return autoTriangulationButton;
+    }
+
+    public JButton getCleanButton() {
+        return cleanButton;
+    }
+
+    public JButton getManualTriangulationButton() {
+        return manualTriangulationButton;
+    }
+
+    public JButton getReadFileButton() {
+        return readFileButton;
+    }
 
 }

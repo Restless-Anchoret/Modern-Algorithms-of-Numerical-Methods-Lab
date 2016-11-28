@@ -16,20 +16,23 @@ public enum ErrorMessages {
 
     START_VERTEX_NUMBER_IS_GREATER_THAN_NUMBER_OF_VERTEX("Start vertex number({}) is greater than number of vertex({})"),
 
-    POINTS_SIZE_DOESNT_EQUAL_ADJECENCY_MATRIX_SIZE("Points size doesn't equal adjacencyMatrix size!");
+    POINTS_SIZE_DOESNT_EQUAL_ADJECENCY_MATRIX_SIZE("Points size doesn't equal adjacencyMatrix size!"),
 
-    private final String msg;
+    GRID_MUST_BE_POLYGON("Grid must be a polygon!");
+    
+    private final String message;
 
-    ErrorMessages(String msg) {
-        this.msg = msg;
+    private ErrorMessages(String message) {
+        this.message = message;
     }
 
     public String toString(Object... params) {
-        if (params == null) return msg;
-        return MessageFormatter.arrayFormat(msg, params).getMessage();
+        if (params == null) return message;
+        return MessageFormatter.arrayFormat(message, params).getMessage();
     }
 
-
-
+    public String getMessage() {
+        return message;
+    }
 
 }
