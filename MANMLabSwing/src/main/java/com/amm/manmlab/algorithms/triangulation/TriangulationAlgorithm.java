@@ -13,6 +13,6 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
 
         //центрирование звёзд
         //call Algorithm<PointsWithEdges, PointsWithEdges>
-        return null;
+        return screenObjects.clone();
     }
 }

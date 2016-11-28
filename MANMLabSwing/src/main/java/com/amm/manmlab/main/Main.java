@@ -2,6 +2,7 @@ package com.amm.manmlab.main;
 
 import com.amm.manmlab.algorithms.cuthillmckee.CuthillMcKeeAlgorithm;
 import com.amm.manmlab.algorithms.finiteelement.FiniteElementMethodAlgorithm;
+import com.amm.manmlab.algorithms.triangulation.TriangulationAlgorithm;
 import com.amm.manmlab.algorithms.validation.PolygonGridValidator;
 import com.amm.manmlab.algorithms.validation.TriangulationGridValidator;
 import com.amm.manmlab.controller.MainController;
@@ -20,7 +21,7 @@ public class Main {
         EventQueue.invokeLater(() -> {
             MainController mainController = new MainController(
                     new FileInputLoaderImplementation(),
-                    pointsWithEdges -> pointsWithEdges.clone(),
+                    new TriangulationAlgorithm(),
                     new CuthillMcKeeAlgorithm(),
                     new FiniteElementMethodAlgorithm(),
                     new PolygonGridValidator(),

@@ -129,7 +129,7 @@ public class MainController {
                 initListenersForSettingEdgeDialog(pointsWithEdgesForSettingEdge);
                 break;
             case DialogPanel.SETTING_EDGE_CONDITIONS_DIALOG:
-                initListenersForSettingEdgeDialog(pointsWithEdgesForSettingEdge);
+                initListenersForTriangulationResultDialog();
                 break;
             case DialogPanel.RESULT_DIALOG:
                 initListenersForSettingEdgeConditionsDialog();
