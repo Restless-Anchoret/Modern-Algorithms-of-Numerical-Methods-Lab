@@ -143,7 +143,7 @@ public class MainController {
             if (!gridIsValid) {
                 throw new IllegalStateException(ErrorMessages.GRID_MUST_BE_POLYGON.getMessage());
             }
-            pointsWithEdgesAfterTriangulation = triangulationAlgorithm.doAlgorithm(pointsWithEdgesForSettingEdge);
+            pointsWithEdgesAfterTriangulation = triangulationAlgorithm.doAlgorithm(pointsWithEdgesForSettingEdge.clone());
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
             showMessage(ex.getMessage());
