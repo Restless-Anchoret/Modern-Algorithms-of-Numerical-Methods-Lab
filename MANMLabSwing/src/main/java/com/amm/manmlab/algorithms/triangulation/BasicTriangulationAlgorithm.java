@@ -170,7 +170,7 @@ public class BasicTriangulationAlgorithm implements Algorithm<PointsWithEdges, P
                 }
             }
             if (nextIndex == -1) {
-                LOG.info("Some points aren't linked with others! The path can't be created!");
+                LOG.info("Некоторые точки не соединены с остальными! Невозможно построить контур!");
                 break;
             }
         } while (fpp != pp);
@@ -224,7 +224,7 @@ public class BasicTriangulationAlgorithm implements Algorithm<PointsWithEdges, P
 
     @Override
     public PointsWithEdges doAlgorithm(PointsWithEdges data) {
-        LOG.info("Triangulation (cut-groove) starts  ...");
+        LOG.info("Триангуляция (вырезка-выемка) началась  ...");
         edges = data.getEdges();
         points = data.getPoints();
         PathPoint pp = convertDataToPath();
@@ -235,7 +235,7 @@ public class BasicTriangulationAlgorithm implements Algorithm<PointsWithEdges, P
             int minIndex = findMinAngle(pp);
             pp = cutOrGroove(pathPoints.get(minIndex));
         }
-        LOG.info("Triangulation (cut-groove) ended.");
+        LOG.info("Триангуляция (вырезка-выемка) закончилась.");
         return new PointsWithEdges(edges, points);
     }
 }
