@@ -4,21 +4,39 @@ import com.amm.manmlab.algorithms.Algorithm;
 import com.amm.manmlab.utils.containers.PointsWithEdges;
 import com.amm.manmlab.utils.primitives.Edge;
 import com.amm.manmlab.utils.primitives.Point;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
+import java.math.BigInteger;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 /**
  * Алгоритм трингуляции - выемка-вырезка + центрирование звезд
  */
 public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, PointsWithEdges> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TriangulationAlgorithm.class);
+    private static final int NUMBER_STAR_CENTERING = 3;
+
     @Override
     public PointsWithEdges doAlgorithm(PointsWithEdges screenObjects) {
-        return starCentering((new BasicTriangulationAlgorithm()).doAlgorithm(screenObjects));
+        LOG.debug("[ (screenObjects : {})", screenObjects);
+        PointsWithEdges objectsAfterTriangulation = new BasicTriangulationAlgorithm().doAlgorithm(screenObjects);
+        LOG.trace("objectsAfterTriangulation : {}", objectsAfterTriangulation);
+        for (int i = 0; i < NUMBER_STAR_CENTERING; i++) {
+            objectsAfterTriangulation = starCentering(objectsAfterTriangulation);
+            LOG.trace("objects after star centering iteration - {} : {}", i, objectsAfterTriangulation);
+        }
+        LOG.debug("] (return {})", objectsAfterTriangulation);
+        return objectsAfterTriangulation;
     }
 
     //центрирование звёзд
     private PointsWithEdges starCentering(PointsWithEdges data) {
-         List<Edge> edges = data.getEdges();
+
+        List<Edge> edges = data.getEdges();
         List<Point> points = data.getPoints();
         
         data.toString();

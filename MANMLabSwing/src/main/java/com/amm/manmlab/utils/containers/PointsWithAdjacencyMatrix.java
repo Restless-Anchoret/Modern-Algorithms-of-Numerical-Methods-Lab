@@ -3,6 +3,8 @@ package com.amm.manmlab.utils.containers;
 import com.amm.manmlab.errors.ErrorMessages;
 import com.amm.manmlab.utils.primitives.Point;
 
+import java.util.Arrays;
+
 
 public class PointsWithAdjacencyMatrix {
 
@@ -28,7 +30,9 @@ public class PointsWithAdjacencyMatrix {
 
     @Override
     public String toString() {
-        return "PointsWithAdjacencyMatrix{" + "adjacencyMatrix=" + adjacencyMatrix + ", points=" + points + '}';
+        return "PointsWithAdjacencyMatrix{" +
+                "adjacencyMatrix=" + Arrays.deepToString(adjacencyMatrix) +
+                ", points=" + Arrays.deepToString(points) + '}';
     }
 
 }
