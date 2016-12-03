@@ -1,6 +1,7 @@
 package com.amm.manmlab.utils.primitives;
 
 import com.amm.manmlab.utils.primitives.Point;
+import com.oracle.webservices.internal.api.EnvelopeStyle;
 
 /**
  * Точка со ссылками на предыдущую и последующую
@@ -39,5 +40,9 @@ public class PathPoint extends Point {
 
     public int getIndex() {
         return index;
+    }
+    
+    public Point toPoint() {
+        return new Point(getX(), getY());
     }
 }

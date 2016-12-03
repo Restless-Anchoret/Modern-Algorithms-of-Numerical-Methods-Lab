@@ -1,18 +1,22 @@
 package com.amm.manmlab.algorithms.triangulation;
 
 import com.amm.manmlab.algorithms.Algorithm;
+import com.amm.manmlab.controller.MainController;
 import com.amm.manmlab.utils.containers.PointsWithEdges;
 import com.amm.manmlab.utils.primitives.Edge;
 import com.amm.manmlab.utils.primitives.Point;
 import com.amm.manmlab.utils.primitives.PathPoint;
 import java.util.ArrayList;
 import java.util.List;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Алгоритм триангуляции методом вырезка-выемка
  */
 public class BasicTriangulationAlgorithm implements Algorithm<PointsWithEdges, PointsWithEdges> {
 
+    private static final Logger LOG = LoggerFactory.getLogger(MainController.class);
     private List<Point> points;
     private List<Edge> edges;
     private List<PathPoint> pathPoints;
@@ -29,6 +33,10 @@ public class BasicTriangulationAlgorithm implements Algorithm<PointsWithEdges, P
 
     private double scalarMul(Point a, Point b) {
         return a.getX() * b.getX() + a.getY() * b.getY();
+    }
+
+    private double scalarMul(double len1, double len2, double angle) {
+        return len1 * len2 * Math.cos(angle);
     }
 
     private Point getVector(Point begin, Point end) {
@@ -55,6 +63,7 @@ public class BasicTriangulationAlgorithm implements Algorithm<PointsWithEdges, P
         return a.getX() * b.getY() - b.getX() * a.getY();
     }
 
+    //вырезка
     private PathPoint cut(PathPoint pp) {
         PathPoint prev = pp.getPrev();
         PathPoint next = pp.getNext();
@@ -65,24 +74,73 @@ public class BasicTriangulationAlgorithm implements Algorithm<PointsWithEdges, P
         return next;
     }
 
+    // выемка
     private PathPoint groove(PathPoint pp) {
-        return null;
+        Point vec1 = getVector(pp, pp.getPrev());
+        Point vec2 = getVector(pp, pp.getNext());
+        double len1 = module(vec1);
+        double len2 = module(vec2);
+        double len = (len1 + len2) / 2;
+        double angle = angle(pp) / 2;
+        double scalarMul1 = scalarMul(len1, len, angle);
+        double scalarMul2 = scalarMul(len2, len, angle);
+
+        double a1, a2, b1, b2;
+        // составляем систему уравнений, надо избежать деления на 0
+        // a1 не должно быть = 0
+        // Сама система
+        // a1*x + b1*y = scalarMul1
+        // a2*x + b2*y = scalarMul2
+        if (vec1.getX() != 0) {
+            a1 = vec1.getX();
+            b1 = vec1.getY();
+            a2 = vec2.getX();
+            b2 = vec2.getY();
+        } else {
+            a1 = vec2.getX();
+            b1 = vec2.getY();
+            a2 = vec1.getX();
+            b2 = vec1.getY();
+        }
+
+        double y = (scalarMul1 * a2 - scalarMul2 * a1) / (b1 * a2 - b2 * a1);
+        double x = (scalarMul1 - y * b1) / a1;
+
+        // переводим координаты вектора в новую точку
+        PathPoint npp = new PathPoint(pp.getX() + x, pp.getY() + y, points.size());
+        // исключаем предыдущую точку из контура
+        npp.setPrev(pp.getPrev());
+        npp.setNext(pp.getNext());
+        npp.getPrev().setNext(npp);
+        npp.getNext().setPrev(npp);
+        // добавляем новые связи и новую точку в коллекции
+        points.add(npp.toPoint());
+        pathPoints.add(npp); // для удобства последующего извлечения по индексу
+        edges.add(new Edge(pp.getIndex(), npp.getIndex()));
+        edges.add(new Edge(npp.getPrev().getIndex(), npp.getIndex()));
+        edges.add(new Edge(npp.getIndex(), npp.getNext().getIndex()));
+
+        return npp;
     }
 
     private PathPoint cutOrGroove(PathPoint pp) {
-        //double angle = angle(pp.getPrev(), pp, pp.getNext());
-        return cut(pp);
-//        if (angle <= 75) {
-//            return cut(pp); // вырезка
-//        } else if (angle >= 90) {
-//            return groove(pp); // выемка
-//        } else if (angle(pp, pp.getPrev(), pp.getNext()) < 30
-//                || angle(pp, pp.getNext(), pp.getPrev()) < 30) {
-//            // выемка, если один из углов маленький
-//            return groove(pp);
-//        } else {
-//            return cut(pp);
-//        }
+        double angle = Math.toDegrees(angle(pp));
+        if (angle < 75) {
+            return cut(pp); // вырезка
+        } else if (angle > 89) {
+            return groove(pp); // выемка
+        } else {
+            // вычисляем два другие угла треугольника
+            double ang1 = angle(getVector(pp.getPrev(), pp), getVector(pp.getPrev(), pp.getNext()));
+            ang1 = Math.toDegrees(Math.abs(ang1));
+            double ang2 = angle(getVector(pp.getNext(), pp), getVector(pp.getNext(), pp.getPrev()));
+            ang2 = Math.toDegrees(Math.abs(ang2));
+            if (ang1 < 30 || ang2 < 30) {
+                return groove(pp);
+            } else {
+                return cut(pp);
+            }
+        }
     }
 
     private PathPoint convertDataToPath() {
@@ -92,7 +150,7 @@ public class BasicTriangulationAlgorithm implements Algorithm<PointsWithEdges, P
         }
         int index = 0;
         PathPoint pp = pathPoints.get(index);
-        pp.setPrev(pp); // для избежания ошибки
+        pp.setPrev(pp); // для избежания ошибки на первом шаге
         PathPoint fpp = pp;
         do {
             int nextIndex = -1;
@@ -112,7 +170,7 @@ public class BasicTriangulationAlgorithm implements Algorithm<PointsWithEdges, P
                 }
             }
             if (nextIndex == -1) {
-                System.out.println("Не все точки соединены! Невозможно построить путь!");
+                LOG.info("Some points aren't linked with others! The path can't be created!");
                 break;
             }
         } while (fpp != pp);
@@ -166,18 +224,18 @@ public class BasicTriangulationAlgorithm implements Algorithm<PointsWithEdges, P
 
     @Override
     public PointsWithEdges doAlgorithm(PointsWithEdges data) {
-        System.err.println("Триангуляция началась ...");
+        LOG.info("Triangulation (cut-groove) starts  ...");
         edges = data.getEdges();
         points = data.getPoints();
         PathPoint pp = convertDataToPath();
-        clockwise = clockwiseTest(pp);
+        clockwise = clockwiseTest(pp); // по часовой стрелке?
         pathLength = pathPoints.size();
         //showAngles(pp);
-        while (pathLength > 3) {
+        while (pathLength > 3) { // пока не останется 1 треугольник
             int minIndex = findMinAngle(pp);
             pp = cutOrGroove(pathPoints.get(minIndex));
         }
-        System.err.println("Триангуляция закончилась ...");
+        LOG.info("Triangulation (cut-groove) ended.");
         return new PointsWithEdges(edges, points);
     }
 }
