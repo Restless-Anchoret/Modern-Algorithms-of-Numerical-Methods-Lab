@@ -1,8 +1,5 @@
 package com.amm.manmlab.utils.primitives;
 
-import com.amm.manmlab.utils.primitives.Point;
-import com.oracle.webservices.internal.api.EnvelopeStyle;
-
 /**
  * Точка со ссылками на предыдущую и последующую
  */
