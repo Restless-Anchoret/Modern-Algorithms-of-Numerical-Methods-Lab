@@ -1,6 +1,7 @@
 package com.amm.manmlab.algorithms.finiteelement;
 
 import com.amm.manmlab.algorithms.Algorithm;
+import com.amm.manmlab.matrix.BandedMatrix;
 import com.amm.manmlab.utils.primitives.Element;
 import com.amm.manmlab.utils.containers.FiniteElementMethodInput;
 

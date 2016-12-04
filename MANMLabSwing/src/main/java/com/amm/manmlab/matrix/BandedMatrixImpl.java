@@ -79,6 +79,16 @@ public class BandedMatrixImpl implements BandedMatrix
         return fullMatrix;
     }
 
+    @Override
+    public int getRowSize() {
+        return rowOfMatrix;
+    }
+
+    @Override
+    public int getBand() {
+        return bandOfMatrix;
+    }
+
     public BandedMatrixImpl(int rowOfMatrix, int bandOfMatrix)
     {
         this.rowOfMatrix = rowOfMatrix;

@@ -8,4 +8,8 @@ public interface BandedMatrix
     double getElement(int row, int col);
 
     double[][] getFullMatrix();
+
+    int getRowSize();
+
+    int getBand();
 }
