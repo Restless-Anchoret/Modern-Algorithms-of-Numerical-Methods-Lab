@@ -28,13 +28,13 @@ public class BandedMatrixImpl implements BandedMatrix
                 col = row;
                 row = tmp;
             }
-            if ((row > rowOfMatrix + 1) && (col <= row - (bandOfMatrix + 1)))
+            if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1)))
             {
                 LOG.error("Out of band");
             }
             else
             {
-                matrix[row][row - col] = element;
+                matrix[row][row - col - 1] = element;
             }
         }
     }
@@ -54,20 +54,29 @@ public class BandedMatrixImpl implements BandedMatrix
                 col = row;
                 row = tmp;
             }
-            if ((row > rowOfMatrix + 1) && (col <= row - (bandOfMatrix + 1)))
+            if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1)))
             {
                 LOG.error("Out of band");
                 return 0;
             }
 
-            return matrix[row][row - col];
+            return matrix[row][row - col - 1];
         }
     }
 
     @Override
     public double[][] getFullMatrix()
     {
-        return matrix;
+        double[][] fullMatrix = new double[rowOfMatrix][rowOfMatrix];
+        for (int i = 0; i < rowOfMatrix; i++)
+        {
+            for (int j = 0; j < rowOfMatrix; j++)
+            {
+                fullMatrix[i][j] = getElement(i, j);
+            }
+
+        }
+        return fullMatrix;
     }
 
     public BandedMatrixImpl(int rowOfMatrix, int bandOfMatrix)
