@@ -84,11 +84,12 @@ public class BandedMatrixImpl implements BandedMatrix
         return rowOfMatrix;
     }
 
-    @Override
-    public int getBand() {
-        return bandOfMatrix;
-    }
-
+    /**
+     *
+     * @param rowOfMatrix Размерность матрицы.
+     * @param bandOfMatrix Количество побочных диагоналей в нижней половине
+     * матрицы.(Без учёта главной диагонали!).
+     */
     public BandedMatrixImpl(int rowOfMatrix, int bandOfMatrix)
     {
         this.rowOfMatrix = rowOfMatrix;

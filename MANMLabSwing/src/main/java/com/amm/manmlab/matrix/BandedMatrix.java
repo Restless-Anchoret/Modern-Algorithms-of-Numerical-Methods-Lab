@@ -7,6 +7,10 @@ public interface BandedMatrix
 
     double getElement(int row, int col);
 
+    /**
+     *
+     * @return Возвращает всю матрицу в виде NxN.
+     */
     double[][] getFullMatrix();
 
     int getRowSize();
