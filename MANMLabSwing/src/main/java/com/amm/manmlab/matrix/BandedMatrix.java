@@ -14,6 +14,4 @@ public interface BandedMatrix
     double[][] getFullMatrix();
 
     int getRowSize();
-
-    int getBand();
 }
