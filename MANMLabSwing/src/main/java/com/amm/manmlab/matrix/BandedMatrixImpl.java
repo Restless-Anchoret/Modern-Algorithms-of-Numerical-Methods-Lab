@@ -18,7 +18,7 @@ public class BandedMatrixImpl implements BandedMatrix
     {
         if (row == col)
         {
-            matrix[row][bandOfMatrix + 1] = element;
+            matrix[row][bandOfMatrix] = element;
         }
         else
         {
@@ -44,7 +44,7 @@ public class BandedMatrixImpl implements BandedMatrix
     {
         if (row == col)
         {
-            return matrix[row][bandOfMatrix + 1];
+            return matrix[row][bandOfMatrix];
         }
         else
         {
@@ -70,7 +70,7 @@ public class BandedMatrixImpl implements BandedMatrix
         return matrix;
     }
 
-    BandedMatrixImpl(int rowOfMatrix, int bandOfMatrix)
+    public BandedMatrixImpl(int rowOfMatrix, int bandOfMatrix)
     {
         this.rowOfMatrix = rowOfMatrix;
         this.bandOfMatrix = bandOfMatrix;
