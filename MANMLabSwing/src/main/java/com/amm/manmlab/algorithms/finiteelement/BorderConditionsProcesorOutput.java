@@ -5,12 +5,12 @@ import com.amm.manmlab.matrix.BandedMatrix;
 /**
  * @author Aleksandr Pyatakov
  */
-public class BorderConditionsProcesorOutput {
+class BorderConditionsProcesorOutput {
 
     private final BandedMatrix processedMatrix;
     private final Double[] rightHandSide;
 
-    public BorderConditionsProcesorOutput(BandedMatrix processedMatrix, Double[] rightHandSide) {
+    BorderConditionsProcesorOutput(BandedMatrix processedMatrix, Double[] rightHandSide) {
         this.processedMatrix = processedMatrix;
         this.rightHandSide = rightHandSide;
     }
