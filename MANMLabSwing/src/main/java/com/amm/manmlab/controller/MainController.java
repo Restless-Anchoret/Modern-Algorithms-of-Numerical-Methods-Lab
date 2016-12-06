@@ -129,7 +129,8 @@ public class MainController {
     private void initListenersForSettingEdgeConditionsDialog() {
         String dialog = DialogPanel.SETTING_EDGE_CONDITIONS_DIALOG;
         mainFrame.getDialogPanel().setCurrentDialog(dialog);
-        MatrixPaintStrategy paintStrategy = new MatrixPaintStrategy(pointsMatrixAfterRenumbering, borderConditions, dialog, false);
+        MatrixPaintStrategy paintStrategy = new MatrixPaintStrategy(pointsMatrixAfterRenumbering, 
+                pointsWithEdgesForSettingEdge, borderConditions, dialog, false);
         mainFrame.getImagePanel().removeAllImagePanelListeners();
         mainFrame.getImagePanel().addImagePanelListener(new SettingConditionController(paintStrategy));
         mainFrame.getImagePanel().setImagePanelPaintStrategy(paintStrategy);
@@ -141,7 +142,7 @@ public class MainController {
         mainFrame.getDialogPanel().setCurrentDialog(dialog);
         mainFrame.getImagePanel().removeAllImagePanelListeners();
         mainFrame.getImagePanel().setImagePanelPaintStrategy(new MatrixPaintStrategy(pointsMatrixAfterRenumbering, 
-                       borderConditions, dialog, show));
+                       finiteElementsResult /*for demo - borderConditions*/, dialog, show));
         mainFrame.getImagePanel().repaint();
     }
     
@@ -201,7 +202,7 @@ public class MainController {
         try {
             finiteElementsResult = finiteElementMethodAlgorithm.doAlgorithm(
                     new FiniteElementMethodInput(pointsMatrixAfterRenumbering, 
-                    mainFrame.getFiniteCoeff(1), mainFrame.getFiniteCoeff(2), /* paste here finiteElementsResult */borderConditions));
+                    mainFrame.getFiniteCoeff(1), mainFrame.getFiniteCoeff(2), borderConditions));
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
             showMessage(ex.getMessage());

@@ -4,15 +4,16 @@ import com.amm.manmlab.ui.DialogPanel;
 import com.amm.manmlab.ui.ImagePanelPaintStrategy;
 import com.amm.manmlab.utils.LabConstants;
 import com.amm.manmlab.utils.containers.PointsWithAdjacencyMatrix;
+import com.amm.manmlab.utils.containers.PointsWithEdges;
 import com.amm.manmlab.utils.primitives.Point;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-
 public class MatrixPaintStrategy implements ImagePanelPaintStrategy {
     
     private PointsWithAdjacencyMatrix pointsWithMatrix;
+    private PointsWithEdges pointsWithEdges;
     private Double[] borderConditions;
     private int chosenPointIndex = -1;
     private int cursorX;
@@ -30,9 +31,18 @@ public class MatrixPaintStrategy implements ImagePanelPaintStrategy {
         this.currentDialog = dialog;
     }
     
-    public MatrixPaintStrategy(PointsWithAdjacencyMatrix firstMatrix, 
+    public MatrixPaintStrategy(PointsWithAdjacencyMatrix matrix, 
             Double[] borders, String dialog, boolean show){
-        this.pointsWithMatrix = firstMatrix;
+        this.pointsWithMatrix = matrix;
+        this.borderConditions = borders;
+        this.currentDialog = dialog;
+        this.showInitial = show;      
+    }
+    
+    public MatrixPaintStrategy(PointsWithAdjacencyMatrix matrix, PointsWithEdges pointsWithEdges,
+            Double[] borders, String dialog, boolean show){
+        this.pointsWithMatrix = matrix;
+        this.pointsWithEdges = pointsWithEdges;
         this.borderConditions = borders;
         this.currentDialog = dialog;
         this.showInitial = show;      
@@ -45,7 +55,7 @@ public class MatrixPaintStrategy implements ImagePanelPaintStrategy {
     public void setPointsWithMatrix(Point[] pointsMatrix) {
         this.pointsWithMatrix.setPoints(pointsMatrix);
     }
-    
+        
     public void resetBorderCondition(int index){
         this.borderConditions[index*2] = null;
         this.borderConditions[index*2+1] = null;
@@ -96,6 +106,18 @@ public class MatrixPaintStrategy implements ImagePanelPaintStrategy {
 
     public void setCursorY(int cursorY) {
         this.cursorY = cursorY;
+    }
+    
+    public boolean equalPointExists(int index){
+        Point chosenPoint = pointsWithMatrix.getPoints()[index];
+        boolean res = false;
+        for(Point point : pointsWithEdges.getPoints())
+            if(chosenPoint.getX() == point.getX() &
+               chosenPoint.getY() == point.getY()) {
+                res = true;
+                break;
+            } 
+        return res;
     }
     
     @Override
