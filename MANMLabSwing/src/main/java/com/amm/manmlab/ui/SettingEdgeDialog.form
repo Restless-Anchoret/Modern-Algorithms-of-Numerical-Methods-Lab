@@ -67,6 +67,9 @@
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x410;&#x432;&#x442;&#x43e;&#x43c;&#x430;&#x442;&#x438;&#x447;&#x435;&#x441;&#x43a;&#x430;&#x44f; &#x442;&#x440;&#x438;&#x430;&#x43d;&#x433;&#x443;&#x43b;&#x44f;&#x446;&#x438;&#x44f;"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="autoTriangulationButtonActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="manualTriangulationButton">
       <Properties>

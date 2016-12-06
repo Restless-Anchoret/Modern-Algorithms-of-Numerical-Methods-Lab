@@ -86,5 +86,12 @@ public class MainFrame extends JFrame {
     public JButton getStepBackButton() {
         return stepBackButton;
     }
-
+    
+    public void deselectCheckBox() {
+        dialogPanel.getResultDialog().getShowInitialGrid().setSelected(false);
+    }
+    
+    public Double getFiniteCoeff(int index){
+        return dialogPanel.getSettingEdgeConditionsDialog().getFiniteCoeff(index);
+    }
 }

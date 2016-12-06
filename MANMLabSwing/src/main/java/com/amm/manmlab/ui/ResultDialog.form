@@ -16,10 +16,13 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="headerLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="258" max="32767" attributes="0"/>
+              <Group type="103" groupAlignment="0" attributes="0">
+                  <Component id="showInitialGrid" min="-2" max="-2" attributes="0"/>
+                  <Component id="headerLabel" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace pref="215" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -28,7 +31,9 @@
           <Group type="102" alignment="0" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
               <Component id="headerLabel" min="-2" max="-2" attributes="0"/>
-              <EmptySpace pref="278" max="32767" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Component id="showInitialGrid" min="-2" max="-2" attributes="0"/>
+              <EmptySpace pref="244" max="32767" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -37,6 +42,11 @@
     <Component class="javax.swing.JLabel" name="headerLabel">
       <Properties>
         <Property name="text" type="java.lang.String" value="&#x420;&#x435;&#x437;&#x443;&#x43b;&#x44c;&#x442;&#x430;&#x442; &#x432;&#x44b;&#x447;&#x438;&#x441;&#x43b;&#x435;&#x43d;&#x438;&#x439;"/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JCheckBox" name="showInitialGrid">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x41f;&#x43e;&#x43a;&#x430;&#x437;&#x430;&#x442;&#x44c; &#x438;&#x441;&#x445;&#x43e;&#x434;&#x43d;&#x443;&#x44e; &#x441;&#x435;&#x442;&#x43a;&#x443;"/>
       </Properties>
     </Component>
   </SubComponents>

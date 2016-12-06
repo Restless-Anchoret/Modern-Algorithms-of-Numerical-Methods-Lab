@@ -8,6 +8,9 @@ import com.amm.manmlab.ui.MainFrame;
 import com.amm.manmlab.utils.containers.FiniteElementMethodInput;
 import com.amm.manmlab.utils.containers.PointsWithAdjacencyMatrix;
 import com.amm.manmlab.utils.containers.PointsWithEdges;
+import com.amm.manmlab.utils.containers.SettingConditionController;
+import com.amm.manmlab.utils.primitives.Point;
+import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
@@ -30,6 +33,10 @@ public class MainController {
     private PointsWithEdges initialPointsWithEdges;
     private PointsWithEdges pointsWithEdgesForSettingEdge;
     private PointsWithEdges pointsWithEdgesAfterTriangulation;
+    private PointsWithAdjacencyMatrix pointsMatrixAfterTriangulation;
+    private PointsWithAdjacencyMatrix pointsMatrixAfterRenumbering;
+    private Double[] borderConditions;
+    private Double[] finiteElementsResult;
 
     public MainController(FileInputLoader fileInputLoader,
             Algorithm<PointsWithEdges, PointsWithEdges> triangulationAlgorithm,
@@ -83,6 +90,12 @@ public class MainController {
                 event -> initListenersForManualTriangulationDialog());
         dialogPanel.getSettingEdgeDialog().getAutoTriangulationButton().addActionListener(
                 event -> makeAutoTriangulation());
+        dialogPanel.getTriangulationResultDialog().getRenumberingButton().addActionListener(
+                event -> makeRenumbering());
+        dialogPanel.getSettingEdgeConditionsDialog().getSetConditionsButton().addActionListener(
+                event -> makeResulting());
+        dialogPanel.getResultDialog().getShowInitialGrid().addItemListener(
+                event -> initListenersForResultDialog(event.getStateChange() == ItemEvent.SELECTED));
     }
     
     private void initListenersForSettingEdgeDialog() {
@@ -90,7 +103,8 @@ public class MainController {
     }
     
     private void initListenersForSettingEdgeDialog(PointsWithEdges pointsWithEdges) {
-        mainFrame.getDialogPanel().setCurrentDialog(DialogPanel.SETTING_EDGE_DIALOG);
+        String dialog = DialogPanel.SETTING_EDGE_DIALOG;
+        mainFrame.getDialogPanel().setCurrentDialog(dialog);
         pointsWithEdgesForSettingEdge = pointsWithEdges;
         SimplePaintStrategy paintStrategy = new SimplePaintStrategy(pointsWithEdges);
         mainFrame.getImagePanel().removeAllImagePanelListeners();
@@ -100,22 +114,35 @@ public class MainController {
     }
     
     private void initListenersForManualTriangulationDialog() {
-        mainFrame.getDialogPanel().setCurrentDialog(DialogPanel.MANUAL_TRIANGULATION_DIALOG);
+        String dialog = DialogPanel.MANUAL_TRIANGULATION_DIALOG;
+        mainFrame.getDialogPanel().setCurrentDialog(dialog);
     }
     
     private void initListenersForTriangulationResultDialog() {
-        mainFrame.getDialogPanel().setCurrentDialog(DialogPanel.TRIANGULATION_RESULT_DIALOG);
+        String dialog = DialogPanel.TRIANGULATION_RESULT_DIALOG;
+        mainFrame.getDialogPanel().setCurrentDialog(dialog);
         mainFrame.getImagePanel().removeAllImagePanelListeners();
-        mainFrame.getImagePanel().setImagePanelPaintStrategy(new SimplePaintStrategy(pointsWithEdgesAfterTriangulation));
+        mainFrame.getImagePanel().setImagePanelPaintStrategy(new MatrixPaintStrategy(pointsMatrixAfterTriangulation, dialog));
         mainFrame.getImagePanel().repaint();
     }
     
     private void initListenersForSettingEdgeConditionsDialog() {
-        mainFrame.getDialogPanel().setCurrentDialog(DialogPanel.SETTING_EDGE_CONDITIONS_DIALOG);
+        String dialog = DialogPanel.SETTING_EDGE_CONDITIONS_DIALOG;
+        mainFrame.getDialogPanel().setCurrentDialog(dialog);
+        MatrixPaintStrategy paintStrategy = new MatrixPaintStrategy(pointsMatrixAfterRenumbering, borderConditions, dialog, false);
+        mainFrame.getImagePanel().removeAllImagePanelListeners();
+        mainFrame.getImagePanel().addImagePanelListener(new SettingConditionController(paintStrategy));
+        mainFrame.getImagePanel().setImagePanelPaintStrategy(paintStrategy);
+        mainFrame.getImagePanel().repaint();
     }
     
-    private void initListenersForResultDialog() {
-        mainFrame.getDialogPanel().setCurrentDialog(DialogPanel.RESULT_DIALOG);
+    private void initListenersForResultDialog(boolean show) {
+        String dialog = DialogPanel.RESULT_DIALOG;
+        mainFrame.getDialogPanel().setCurrentDialog(dialog);
+        mainFrame.getImagePanel().removeAllImagePanelListeners();
+        mainFrame.getImagePanel().setImagePanelPaintStrategy(new MatrixPaintStrategy(pointsMatrixAfterRenumbering, 
+                       borderConditions, dialog, show));
+        mainFrame.getImagePanel().repaint();
     }
     
     private void makeStepBack() {
@@ -132,6 +159,7 @@ public class MainController {
                 initListenersForTriangulationResultDialog();
                 break;
             case DialogPanel.RESULT_DIALOG:
+                mainFrame.deselectCheckBox();
                 initListenersForSettingEdgeConditionsDialog();
                 break;
         }
@@ -144,12 +172,42 @@ public class MainController {
                 throw new IllegalStateException(ErrorMessages.GRID_MUST_BE_POLYGON.getMessage());
             }
             pointsWithEdgesAfterTriangulation = triangulationAlgorithm.doAlgorithm(pointsWithEdgesForSettingEdge.clone());
+            pointsMatrixAfterTriangulation = new PointsWithAdjacencyMatrix(pointsWithEdgesAfterTriangulation);
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
             showMessage(ex.getMessage());
             return;
         }
         initListenersForTriangulationResultDialog();
+    }
+    
+    private void makeRenumbering() {
+        try {
+            pointsMatrixAfterRenumbering = renumberingAlgorithm.doAlgorithm(pointsMatrixAfterTriangulation.clone());
+            int matDim = pointsMatrixAfterRenumbering.getPoints().length;
+            borderConditions = new Double[matDim*2];
+            for(int i=0; i<borderConditions.length; i++) {
+                borderConditions[i] = null;
+            }
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            showMessage(ex.getMessage());
+            return;
+        }
+        initListenersForSettingEdgeConditionsDialog();
+    }
+    
+    private void makeResulting() {
+        try {
+            finiteElementsResult = finiteElementMethodAlgorithm.doAlgorithm(
+                    new FiniteElementMethodInput(pointsMatrixAfterRenumbering, 
+                    mainFrame.getFiniteCoeff(1), mainFrame.getFiniteCoeff(2), /* paste here finiteElementsResult */borderConditions));
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
+            showMessage(ex.getMessage());
+            return;
+        }
+        initListenersForResultDialog(false);
     }
     
     private void showMessage(String message) {

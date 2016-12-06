@@ -26,6 +26,11 @@ public class SettingEdgeDialog extends JPanel {
         readFileButton.setText("Считать из файла");
 
         autoTriangulationButton.setText("Автоматическая триангуляция");
+        autoTriangulationButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                autoTriangulationButtonActionPerformed(evt);
+            }
+        });
 
         manualTriangulationButton.setText("Ручная триангуляция");
         manualTriangulationButton.setEnabled(false);
@@ -60,6 +65,10 @@ public class SettingEdgeDialog extends JPanel {
                 .addContainerGap(114, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
+
+    private void autoTriangulationButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_autoTriangulationButtonActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_autoTriangulationButtonActionPerformed
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton autoTriangulationButton;
