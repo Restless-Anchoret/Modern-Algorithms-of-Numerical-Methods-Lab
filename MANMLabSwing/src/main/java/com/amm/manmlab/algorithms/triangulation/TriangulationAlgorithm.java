@@ -121,21 +121,25 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
         p=internal.get(i);
         previousX=p.getX();
         previousY=p.getY();
-        ArrayList <Point>movePoint=new ArrayList<Point>();
+        ArrayList <Point>movePoint=new ArrayList<Point>();        
+       boolean flag=false;
         
         for (int l=0;l<neighbor.size();l++)
         {
+            flag=false;
             for (int k=0;k<movePoint.size();k++)
             {
                 movepoint=points.get(neighbor.get(k));
                 sredX+=movepoint.getX();
                 sredY+=movepoint.getY();
+                flag=true;
              
         }
+            if (!flag){
              currentPoint=points.get(neighbor.get(l));
            sredX+=currentPoint.getX();
            sredY+=currentPoint.getY();
-           
+            }
            
         }
            sredX/=neighbor.size();
