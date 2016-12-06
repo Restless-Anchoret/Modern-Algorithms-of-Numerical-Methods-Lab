@@ -1,7 +1,7 @@
 package com.amm.manmlab.algorithms.finiteelement;
 
 import com.amm.manmlab.algorithms.Algorithm;
-import com.amm.manmlab.matrix.BandedMatrix;
+import com.amm.manmlab.splittingintoelements.SplittingIntoElements;
 import com.amm.manmlab.utils.primitives.Element;
 import com.amm.manmlab.utils.containers.FiniteElementMethodInput;
 
@@ -10,10 +10,10 @@ import java.util.List;
 public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMethodInput, Double[]> {
 
     @Override
-    public Double[] doAlgorithm(FiniteElementMethodInput finiteElementMethodInput) {
-        //Лёша - разбить на элементы
-        List<Element> elements;
-
+    public Double[] doAlgorithm(FiniteElementMethodInput finiteElementMethodInput)
+    {
+        SplittingIntoElements splittingIntoElements = new SplittingIntoElements();
+        List<Element> elements = splittingIntoElements.splitting(finiteElementMethodInput.getPointsWithAdjacencyMatrix());
         //Антон -
         // input :
         //  finiteElementMethodInput.pointsWithAdjacencyMatrix.points
