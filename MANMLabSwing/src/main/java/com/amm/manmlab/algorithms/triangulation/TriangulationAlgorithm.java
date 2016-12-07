@@ -17,14 +17,15 @@ import java.util.Objects;
 public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, PointsWithEdges> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TriangulationAlgorithm.class);
-    private static final int NUMBER_STAR_CENTERING = 3;
+    private static final int NUMBER_STAR_CENTERING = 1;
 
     @Override
     public PointsWithEdges doAlgorithm(PointsWithEdges screenObjects) {
         LOG.debug("[ (screenObjects : {})", screenObjects);
         PointsWithEdges objectsAfterTriangulation = new BasicTriangulationAlgorithm().doAlgorithm(screenObjects);
         LOG.trace("objectsAfterTriangulation : {}", objectsAfterTriangulation);
-        for (int i = 0; i < NUMBER_STAR_CENTERING; i++) {
+        for (int i = 0; i < NUMBER_STAR_CENTERING; i++) 
+        {
             objectsAfterTriangulation = starCentering(objectsAfterTriangulation);
             LOG.trace("objects after star centering iteration - {} : {}", i, objectsAfterTriangulation);
         }
@@ -33,7 +34,7 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
     }
 
     //центрирование звёзд
-    public PointsWithEdges starCentering(PointsWithEdges data) {
+    private PointsWithEdges starCentering(PointsWithEdges data) {
 
         List<Edge> edges = data.getEdges();
         List<Point> points = data.getPoints();
@@ -42,13 +43,17 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
         ArrayList<Integer> neighbor=new ArrayList<Integer>();
         ArrayList<Integer> circle=new ArrayList<Integer>();
         
+        ArrayList <Point> newPoint=new ArrayList<Point>();
+        ArrayList<Integer> newPointIndex=new ArrayList<Integer>();
+        
         Edge ed=new Edge(-1,-1);
         
         int count=0;
         
         ArrayList<Point> gran=new ArrayList<Point>();
         ArrayList<Point> internal=new ArrayList<Point>();
-
+        ArrayList<Integer> internalIndex=new ArrayList<Integer>();
+        ArrayList<Integer> granIndex=new ArrayList<Integer>();
         for (int i=0;i<points.size();i++)
         {
             neighbor.clear();
@@ -89,11 +94,17 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
                 }
                 
         }
-              //if(count<2) gran.add(points.get(neighbor.get(v)));
-               // else neigh.add(points.get(i));
-               if (count<circle.size()*2) gran.add(points.get(i));
-                else internal.add(points.get(i));
-                circle.clear();
+
+               if (count<circle.size()*2) 
+               {
+                   gran.add(points.get(i));
+                   granIndex.add(i);
+               }
+                else {
+                   internal.add(points.get(i));
+                   internalIndex.add(i);
+               }
+               circle.clear();
         }
         
         
@@ -102,26 +113,25 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
         Point currentPoint=new Point(-1,-1);
         Point movepoint=new Point(-1,-1);
         Point sred = null;
-        ArrayList <Point> newPoint=new ArrayList<Point>();
+        
         //перемещение внутренних точек
         neighbor.clear();
-        double previousX=-1, previousY=-1;
+
+         ArrayList <Point>movePoint=new ArrayList<Point>(); 
         for (int i=0;i<internal.size();i++)
         {
+            neighbor.clear();
         for (int j=0;j<edges.size();j++)
         {
             //находим соседние точки
             ed=edges.get(j);
-            if(ed.getFirstIndex()==i) neighbor.add(ed.getSecondIndex());
-            else if (ed.getSecondIndex()==i) neighbor.add(ed.getFirstIndex()); 
+            if(ed.getFirstIndex()==internalIndex.get(i)) neighbor.add(ed.getSecondIndex());
+            else if (ed.getSecondIndex()==internalIndex.get(i)) neighbor.add(ed.getFirstIndex()); 
         }
         
         //выполняем перемещение
         sredX=0;sredY=0;
-        p=internal.get(i);
-        previousX=p.getX();
-        previousY=p.getY();
-        ArrayList <Point>movePoint=new ArrayList<Point>();        
+        
        boolean flag=false;
         
         for (int l=0;l<neighbor.size();l++)
@@ -129,16 +139,19 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
             flag=false;
             for (int k=0;k<movePoint.size();k++)
             {
-                movepoint=points.get(neighbor.get(k));
-                sredX+=movepoint.getX();
-                sredY+=movepoint.getY();
-                flag=true;
+                if(movePoint.get(k).equals(points.get(neighbor.get(l))))
+                {
+                    movepoint=points.get(neighbor.get(l));
+                    sredX+=movepoint.getX();
+                    sredY+=movepoint.getY();
+                    flag=true;
+                }
              
         }
             if (!flag){
              currentPoint=points.get(neighbor.get(l));
-           sredX+=currentPoint.getX();
-           sredY+=currentPoint.getY();
+             sredX+=currentPoint.getX();
+             sredY+=currentPoint.getY();
             }
            
         }
@@ -146,13 +159,28 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
            sredY/=neighbor.size();
            sred=new Point(sredX,sredY);
            movePoint.add(internal.get(i));
-        newPoint.add(sred);
+           newPoint.add(sred);
+           newPointIndex.add(internalIndex.get(i));
         }
-        for (int i=0;i<gran.size();i++)
+       
+        ArrayList<Point> resultPoint=new ArrayList<Point>();
+      
+        for (int i=0;i<points.size();i++)
         {
-            newPoint.add(gran.get(i));
+            for(int j=0;j<gran.size();j++)
+            {
+                if(i==granIndex.get(j)) 
+                resultPoint.add(gran.get(j));
+            }
+            for (int k=0;k<newPoint.size();k++)
+            {
+               if (i==newPointIndex.get(k))
+                    resultPoint.add(newPoint.get(k)); 
+            }
         }
-               PointsWithEdges pwe=new PointsWithEdges(edges,newPoint);
-        return data.clone();
+        
+        PointsWithEdges result=new PointsWithEdges(edges,resultPoint);
+        return result;
+    //           return data.clone();
     }
 }
