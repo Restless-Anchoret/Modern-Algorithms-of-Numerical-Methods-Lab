@@ -33,7 +33,7 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
     }
 
     //центрирование звёзд
-    private PointsWithEdges starCentering(PointsWithEdges data) {
+    public PointsWithEdges starCentering(PointsWithEdges data) {
 
         List<Edge> edges = data.getEdges();
         List<Point> points = data.getPoints();
