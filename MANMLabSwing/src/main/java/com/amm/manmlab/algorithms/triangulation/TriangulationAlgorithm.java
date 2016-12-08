@@ -17,7 +17,7 @@ import java.util.Objects;
 public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, PointsWithEdges> {
 
     private static final Logger LOG = LoggerFactory.getLogger(TriangulationAlgorithm.class);
-    private static final int NUMBER_STAR_CENTERING = 1;
+    private static final int NUMBER_STAR_CENTERING = 3;
 
     @Override
     public PointsWithEdges doAlgorithm(PointsWithEdges screenObjects) {
@@ -34,7 +34,7 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
     }
 
     //центрирование звёзд
-    private PointsWithEdges starCentering(PointsWithEdges data) {
+    public PointsWithEdges starCentering(PointsWithEdges data) {
 
         List<Edge> edges = data.getEdges();
         List<Point> points = data.getPoints();

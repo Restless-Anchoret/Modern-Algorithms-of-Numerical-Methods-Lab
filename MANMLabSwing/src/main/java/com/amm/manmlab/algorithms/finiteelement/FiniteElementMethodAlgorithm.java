@@ -35,11 +35,18 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
         // output :
         //  общая матрица. Класс для неё напишет Лёша.
 
-        BandedMatrix bandedMatrix = doMagic(finiteElementMethodInput, elements);
+        BandedMatrix bandedMatrix = calculateBandedMatrix(finiteElementMethodInput, elements);
         LOG.debug("bandedMatrix = {}", Arrays.deepToString(bandedMatrix.getFullMatrix()));
         LOG.debug("borderConditions = {}", finiteElementMethodInput.getBorderConditions());
         LOG.debug("bandedMatrix rowSize = {}", bandedMatrix.getRowSize());
-        
+
+        //Саша П.-
+        // input:
+        //   общая матрица. Класс для неё напишет Лёша.
+        //   finiteElementMethodInput.borderConditions - Double[] - предположительно, null, где не заданы условия
+        // output:
+        //   общая матрица (Класс для неё напишет Лёша) с учётом граничных условий,
+        //   Double[] изменённая правая часть. - вектор заполнен полностью
         BorderConditionProcessorInput borderConditionProcessorInput = new BorderConditionProcessorInput(
                 bandedMatrix, finiteElementMethodInput.getBorderConditions());
         
@@ -49,14 +56,6 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
         
         LOG.debug("result bandedMatrix = {}", Arrays.deepToString(borderConditionsProcesorOutput.getProcessedMatrix().getFullMatrix()));
         LOG.debug("result borderConditions = {}", borderConditionsProcesorOutput.getRightHandSide());
-        
-        //Саша П.-
-        // input:
-        //   общая матрица. Класс для неё напишет Лёша.
-        //   finiteElementMethodInput.borderConditions - Double[] - предположительно, null, где не заданы условия
-        // output:
-        //   общая матрица (Класс для неё напишет Лёша) с учётом граничных условий,
-        //   Double[] изменённая правая часть. - вектор заполнен полностью
 
         //Андрей
         // input:
@@ -64,11 +63,14 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
         //   изменённая правая часть. Double[] - вектор заполнен полностью
         // output:
         //   Double[] - вектор решения.
+        CholeskyMethod choleskyMethod = new CholeskyMethod();
+        CholeskyMethodOutput result = choleskyMethod.doAlgorithm(borderConditionsProcesorOutput);
 
-        return null;
+        LOG.debug("] (result {})", result);
+        return result.getAnswerVertex();
     }
     
-    public BandedMatrix doMagic(FiniteElementMethodInput input, List<Element> elements) {
+    public BandedMatrix calculateBandedMatrix(FiniteElementMethodInput input, List<Element> elements) {
         double poissonsRatio = input.getPoissonsRatio();
         double youngsModulus = input.getYoungsModulus();
 

@@ -84,6 +84,11 @@ public class BandedMatrixImpl implements BandedMatrix
         return rowOfMatrix;
     }
 
+    @Override
+    public int getBandSize() {
+        return bandOfMatrix;
+    }
+
     /**
      *
      * @param rowOfMatrix Размерность матрицы.
