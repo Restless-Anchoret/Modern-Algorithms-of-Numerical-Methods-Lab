@@ -15,9 +15,9 @@ public class CholeskyMethodTest {
     private static final Logger LOG = LoggerFactory.getLogger(CholeskyMethodTest.class);
 
     /**
-     * {{1,2},{3,4}}*{x,y} = {1,0}
-     * x = -2
-     * y = 3/2
+     * {{1,2},{2,1}}*{x,y} = {1,2}
+     * x = 1
+     * y = 0
      */
     @Test
     public void basicTest() {
@@ -25,11 +25,11 @@ public class CholeskyMethodTest {
         BandedMatrix matrix = new BandedMatrixImpl(2,2);
         matrix.setElement(0, 0, 1.0);
         matrix.setElement(0, 1, 2.0);
-        matrix.setElement(1, 0, 3.0);
-        matrix.setElement(1, 1, 4.0);
-        LOG.debug("matrix : {{1,2},{3,4}}");
+        matrix.setElement(1, 1, 1.0);
+        LOG.debug("matrix : {{1,2},{2,1}}");
 
-        Double[] b = new Double[]{new Double(1.0), new Double(0.0)};
+        Double[] b = new Double[]{new Double(1.0), new Double(2.0)};
+        LOG.debug("b : {}", b);
 
         BorderConditionsProcesorOutput input = new BorderConditionsProcesorOutput(
                 matrix,
@@ -40,7 +40,7 @@ public class CholeskyMethodTest {
         CholeskyMethodOutput output = method.doAlgorithm(input);
 
         Double[] actualOutput = output.getAnswerVertex();
-        Double[] expectedOutput = new Double[]{-2.0, 1.5};
+        Double[] expectedOutput = new Double[]{1.0, 0.0};
         LOG.debug("actualOutput : {}", actualOutput);
         LOG.debug("expectedOutput : {}", expectedOutput);
         Assert.assertEquals("Sizes don't equal!", expectedOutput.length, actualOutput.length);
