@@ -24,6 +24,7 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
         LOG.debug("borderConditions = {}", Arrays.toString(finiteElementMethodInput.getBorderConditions()));
         SplittingIntoElements splittingIntoElements = new SplittingIntoElements();
         List<Element> elements = splittingIntoElements.splitting(finiteElementMethodInput.getPointsWithAdjacencyMatrix());
+        LOG.debug("elements = {}", elements.size());
         LOG.debug("elements = {}", elements);
         
         //Антон -
@@ -37,7 +38,7 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
 
         BandedMatrix bandedMatrix = calculateBandedMatrix(finiteElementMethodInput, elements);
         LOG.debug("bandedMatrix = {}", Arrays.deepToString(bandedMatrix.getFullMatrix()));
-        LOG.debug("borderConditions = {}", finiteElementMethodInput.getBorderConditions());
+        LOG.debug("borderConditions = {}", Arrays.deepToString(finiteElementMethodInput.getBorderConditions()));
         LOG.debug("bandedMatrix rowSize = {}", bandedMatrix.getRowSize());
 
         //Саша П.-
@@ -55,7 +56,7 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
         LOG.debug("result banded matrix = {}", borderConditionsProcesorOutput);
         
         LOG.debug("result bandedMatrix = {}", Arrays.deepToString(borderConditionsProcesorOutput.getProcessedMatrix().getFullMatrix()));
-        LOG.debug("result borderConditions = {}", borderConditionsProcesorOutput.getRightHandSide());
+        LOG.debug("result borderConditions = {}", Arrays.deepToString(borderConditionsProcesorOutput.getRightHandSide()));
 
         //Андрей
         // input:

@@ -15,8 +15,107 @@ public class SplittingIntoElements
     private final List<Element> listOfElements = new LinkedList<>();
     private int length;
     private boolean[][] adjacencyMatrix;
-    private int deep = 1;
     private Point[] points;
+    private final LinkedList<Integer> connects = new LinkedList<>();
+
+    public List<Element> splittingBad(PointsWithAdjacencyMatrix pointsWithAdjacencyMatrix)
+    {
+        points = pointsWithAdjacencyMatrix.getPoints();
+        adjacencyMatrix = pointsWithAdjacencyMatrix.getAdjacencyMatrix();
+        length = adjacencyMatrix.length;
+        for (int i = 0; i < length; i++)
+        {
+            for (int j = 0; j < i; j++)
+            {
+                if (adjacencyMatrix[i][j])
+                {
+                    secondStep(i, j, i);
+                }
+            }
+
+        }
+        return listOfElements;
+    }
+
+    private void secondStep(int i, int j, int stopNumber)
+    {
+        for (int k = 0; k < length; k++)
+        {
+            if (k != i && k != j)
+            {
+                if (adjacencyMatrix[k][j])
+                {
+                    stopNumber = thirdStep(j, k, stopNumber);
+                }
+            }
+        }
+    }
+
+    private int thirdStep(int i, int j, int stopNumber)
+    {
+        for (int k = 0; k < length; k++)
+        {
+            if (k != i && k != j && k == stopNumber
+                    && adjacencyMatrix[k][j])
+            {
+                checkDirection(stopNumber, i, j);
+                return stopNumber;
+            }
+        }
+        return 0;
+    }
+
+    private void checkDirection(int i, int j, int k)//Проверяем против часовой стрелке у нас выбраны точки или нет
+    {
+        if (i != j && i != k && j != k)
+        {
+            Point iPoint = points[i];
+            Point jPoint = points[j];
+            Point kPoint = points[k];
+            if (((jPoint.getX() - iPoint.getX()) * (kPoint.getY() - jPoint.getY())
+                    - (jPoint.getY() - iPoint.getY()) * (kPoint.getX() - jPoint.getX()))
+                    / 2 < 0)
+            {
+                Element tmp = new Element(i, j, k);
+                if (!checkExistenceOfElement(tmp))
+                {
+                    listOfElements.add(tmp);
+                    LOG.debug("New element: " + tmp.toString());
+                }
+            }
+            else//Если по то меняем местами j и i
+            {
+                Element tmp = new Element(j, i, k);
+                if (!checkExistenceOfElement(tmp))
+                {
+                    listOfElements.add(tmp);
+                    LOG.debug("New element: " + tmp.toString());
+                }
+            }
+        }
+    }
+
+    private boolean checkExistenceOfElement(Element tmp)
+    {
+        for (Element element : listOfElements)
+        {
+            int elI = element.getI();
+            int elJ = element.getJ();
+            int elK = element.getK();
+
+            int tmpI = tmp.getI();
+            int tmpJ = tmp.getJ();
+            int tmpK = tmp.getK();
+
+            if ((elI == tmpI || elI == tmpJ || elI == tmpK)
+                    && (elJ == tmpI || elJ == tmpJ || elJ == tmpK)
+                    && (elK == tmpI || elK == tmpJ || elK == tmpK))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
 
     public List<Element> splitting(PointsWithAdjacencyMatrix pointsWithAdjacencyMatrix)
     {
@@ -25,60 +124,33 @@ public class SplittingIntoElements
         length = adjacencyMatrix.length;
         for (int i = 0; i < length; i++)
         {
-            for (int j = 0; j <= i; j++)
+            for (int j = 0; j < length; j++)
             {
-                if (adjacencyMatrix[i][j])
+                if (adjacencyMatrix[i][j] && i != j)
                 {
-                    goDeeper(i, j, i);
+                    connects.add(j);
                 }
-                deep = 1;
+
             }
-
-        }
-        return listOfElements;
-    }
-
-    private void goDeeper(int i, int j, int stopNumber)
-    {
-        if (deep < 3)
-        {
-            deep++;
-            for (int k = 0; k < length; k++)
+            for (int j = 0; j < connects.size(); j++)
             {
-                if (k != i)
+                for (int k = 0; k < connects.size(); k++)
                 {
-                    if (adjacencyMatrix[k][j])
+                    if (adjacencyMatrix[connects.get(j)][connects.get(k)] && k != j)
                     {
-                        if (k == stopNumber)
-                        {
-                            checkDirection(stopNumber, i, j);
-                        }
-                        else
-                        {
-                            goDeeper(j, k, stopNumber);
-                        }
+                        checkDirection(i, connects.get(j), connects.get(k));
+
                     }
                 }
-            }
-        }
-    }
 
-    private void checkDirection(int i, int j, int k)//Проверяем против часовой стрелке у нас выбраны точки или нет
-    {
-        Point iPoint = points[i];
-        Point jPoint = points[j];
-        Point kPoint = points[k];
-        if (((jPoint.getX() - iPoint.getX()) * (kPoint.getY() - jPoint.getY())
-                - (jPoint.getY() - iPoint.getY()) * (kPoint.getX() - jPoint.getX()))
-                / 2 > 0)
-        {
-            LOG.info("New element: []", new Element(i, j, k));
-            listOfElements.add(new Element(i, j, k));
+            }
+            for (int j = 0; j < length; j++)
+            {
+                adjacencyMatrix[i][j] = false;
+                adjacencyMatrix[j][i] = false;
+            }
+            connects.clear();
         }
-        else//Если по то меняем местами j и i
-        {
-            LOG.info("New element: []", new Element(j, i, k));
-            listOfElements.add(new Element(j, i, k));
-        }
+        return listOfElements;
     }
 }
