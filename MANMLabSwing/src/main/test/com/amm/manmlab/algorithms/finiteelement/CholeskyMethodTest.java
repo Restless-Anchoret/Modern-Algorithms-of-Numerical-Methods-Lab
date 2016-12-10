@@ -22,7 +22,7 @@ public class CholeskyMethodTest {
     @Test
     public void basicTest() {
         LOG.info("[");
-        BandedMatrix matrix = new BandedMatrixImpl(2,2);
+        BandedMatrix matrix = new BandedMatrixImpl(2,1);
         matrix.setElement(0, 0, 1.0);
         matrix.setElement(0, 1, 2.0);
         matrix.setElement(1, 1, 1.0);

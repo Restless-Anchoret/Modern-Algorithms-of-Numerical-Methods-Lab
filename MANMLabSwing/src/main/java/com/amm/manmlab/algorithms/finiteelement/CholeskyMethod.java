@@ -31,51 +31,59 @@ class CholeskyMethod implements Algorithm <BorderConditionsProcesorOutput, Chole
 
         //Создадим дополнительную матрицу, совпадающую по размерности с processedMatrix.
         //Дополнительно создадим 2 вектора.
-        Double[][] lMatrix = new Double[rowSize][rowSize];
+        Double[][] bMatrix = new Double[rowSize][rowSize];
+
         Double [] x = new Double[rowSize];
         Double [] y = new Double[rowSize];
-        
-        //Заполним дополнительную матрицу. Она понадобится для вычисления решений.
+
         for (int i = 0; i < rowSize; i++){
-            Double l = 0.0;
-            for (int j = 0; j < i + Math.floor(bandSize/2) && j < i - Math.floor(bandSize/2); j++){
-                if (i == j){
-                    for (int k = 0; k < i - 1; k++){
-                        l = Math.pow(processedMatrix.getElement(i, k), 2);
-                    }
-                    lMatrix[i][i] = Math.sqrt(processedMatrix.getElement(i, i) - l);
-                }
-                else{
-                    for (int k = 0; k < i-1; k++){
-                        l = processedMatrix.getElement(i, k)*processedMatrix.getElement(j, k);
-                    }
-                    lMatrix[i][j] = (1/lMatrix[i][i])*(processedMatrix.getElement(j, i) - l);
-                }
-            } 
+            x[i] = 0.0;
+            y[i] = 0.0;
+            for (int j = 0; j < rowSize; j++){
+                bMatrix[i][j] = 0.0;
+            }
         }
 
-        
-        //Заполним дополнительный вектор.
-        for(int i = 0; i < rowSize; i++){
-            Double l = 0.0;
-            for (int j = 0; j < rowSize; j++){
-                for (int k = 0; k < i - 1; k++){
-                    l = lMatrix[i][k] * y[k];
+        for (int i = 0; i < rowSize; i++){
+            bMatrix[i][0] = processedMatrix.getElement(i, 0);
+        }
+        LOG.debug("bMatrix = :{}", Arrays.deepToString(bMatrix));
+
+        //Составим новую матрицу bMatrix.
+
+        for (int i = 1; i < rowSize; i++){
+            for (int j = i; j < rowSize; j++){
+                for (int k = 0; k < j; k++){
+                    bMatrix [i][j] = processedMatrix.getElement(i, j) - bMatrix[i][k] * bMatrix[j][k] / bMatrix[k][k];
                 }
-                y[i] = (1/lMatrix[i][i])*(borderConditions[i] - l);
             }
         }
-        
-        //Найдём решения.
-        for(int i = rowSize; i > 0; i--){
-            Double l = 0.0;
-            for (int j = 0; j < rowSize; j++){
-                for (int k = 0; k < i - 1; k++){
-                    l = lMatrix[k][i] * x[k];
-                }
-                x[i] = (1/lMatrix[i][i])*(borderConditions[i] - l);
+        LOG.debug("new bMatrix = :{}", Arrays.deepToString(bMatrix));
+
+        //Заполним дополнительный вектор y.
+
+        y[0] = borderConditions[0];
+
+        for(int i = 1; i < rowSize; i++){
+            for (int k = 0; k < i - 1; k++){
+                y[i] = borderConditions[i] - bMatrix[i][k] * y[k];
+            }
+            y[i] = y[i] / bMatrix[i][i];
+        }
+        LOG.debug("y[] = {}", Arrays.deepToString(y));
+
+
+        //Найдём решения x.
+
+        x[rowSize - 1] = y[rowSize - 1];
+
+        LOG.debug("x = {}", Arrays.deepToString(x));
+        for(int i = rowSize - 2; i > -1; i--){
+            for (int k = i + 1; k < rowSize; k++){
+                x[i] = y[i] - bMatrix[k][i] * x[k] / bMatrix[i][i];
             }
         }
+        LOG.debug("x[] = {}", Arrays.deepToString(x));
 
         LOG.debug("] (return {})", x);
         return new CholeskyMethodOutput (x);
