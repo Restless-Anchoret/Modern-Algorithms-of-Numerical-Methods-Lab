@@ -14,54 +14,32 @@ public class BandedMatrixImpl implements BandedMatrix
     private final double[][] matrix;
 
     @Override
-    public void setElement(int row, int col, double element)
-    {
-        if (row == col)
-        {
-            matrix[row][bandOfMatrix] = element;
+    public void setElement(int row, int col, double element){
+        if (col > row) {//Мы всегда работаем с нижней половиной матрицы
+            int tmp = col;
+            col = row;
+            row = tmp;
         }
-        else
-        {
-            if (col > row) //Мы всегда работаем с нижней половиной матрицы
-            {
-                int tmp = col;
-                col = row;
-                row = tmp;
-            }
-            if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1)))
-            {
-                LOG.error("Out of band");
-            }
-            else
-            {
-                matrix[row][row - col - 1] = element;
-            }
+        if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1))) {
+            LOG.error("Out of band");
+        }
+        else {
+            matrix[row][col - row + getBandSize()] = element;
         }
     }
 
     @Override
-    public double getElement(int row, int col)
-    {
-        if (row == col)
-        {
-            return matrix[row][bandOfMatrix];
+    public double getElement(int row, int col) {
+        if (col > row) {//Мы всегда работаем с нижней половиной матрицы
+            int tmp = col;
+            col = row;
+            row = tmp;
         }
-        else
-        {
-            if (col > row) //Мы всегда работаем с нижней половиной матрицы
-            {
-                int tmp = col;
-                col = row;
-                row = tmp;
-            }
-            if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1)))
-            {
-                LOG.error("Out of band");
-                return 0;
-            }
-
-            return matrix[row][row - col - 1];
+        if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1))) {
+            LOG.error("Out of band");
+            return 0;
         }
+        return matrix[row][col - row + getBandSize()];
     }
 
     @Override
@@ -77,6 +55,11 @@ public class BandedMatrixImpl implements BandedMatrix
 
         }
         return fullMatrix;
+    }
+
+    @Override
+    public void addValueToElement(int row, int col, double value) {
+        setElement(row, col, getElement(row, col) + value);
     }
 
     @Override

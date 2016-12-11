@@ -21,11 +21,13 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
     @Override
     public Double[] doAlgorithm(FiniteElementMethodInput finiteElementMethodInput)
     {
+        LOG.debug("AdjacencyMatrix : {}", finiteElementMethodInput.getPointsWithAdjacencyMatrix().getAdjacencyMatrix());
         LOG.debug("borderConditions = {}", Arrays.toString(finiteElementMethodInput.getBorderConditions()));
         SplittingIntoElements splittingIntoElements = new SplittingIntoElements();
         List<Element> elements = splittingIntoElements.splitting(finiteElementMethodInput.getPointsWithAdjacencyMatrix());
         LOG.debug("elements = {}", elements.size());
         LOG.debug("elements = {}", elements);
+
         
         //Антон -
         // input :
@@ -87,7 +89,7 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
 
         D = scale(D, coeff);
 
-        BandedMatrix bm = new BandedMatrixImpl(pts.getPoints().length * 2, pts.getPoints().length * 2);
+        BandedMatrix bm = new BandedMatrixImpl(pts.getPoints().length * 2, 2 * getBandLength(pts.getAdjacencyMatrix()) - 1);
         
         for (Element el : elements) {
             Point i = pts.getPoints()[el.getI()];
@@ -108,7 +110,6 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
 
             double[][] K = scale(mul(transpose(B), mul(D, B)), S);
 
-            
             move(0, 0, el.getI(), el.getI(), K, bm);
             move(0, 2, el.getI(), el.getJ(), K, bm);
             move(0, 4, el.getI(), el.getK(), K, bm);
@@ -118,6 +119,7 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
             move(4, 0, el.getK(), el.getI(), K, bm);
             move(4, 2, el.getK(), el.getJ(), K, bm);
             move(4, 4, el.getK(), el.getK(), K, bm);
+            System.out.println("ok");
         }
 
         return bm;
@@ -134,17 +136,17 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
     }
 
     public static void move(int x, int y, int i, int j, double[][] a, BandedMatrix bm) {
-        if (2 * i < 2 * j) {
-            bm.setElement(2 * i, 2 * j, bm.getElement(2 * i, 2 * j) + a[x][y]);
+        if (i <= j) {
+            //2 * i < 2 * j
+            //2 * i + 1 < 2 * j + 1
+            bm.addValueToElement(2 * i, 2 * j, a[x][y]);
+            bm.addValueToElement(2 * i + 1, 2 * j + 1, a[x + 1][y + 1]);
         }
-        if (2 * i + 1 < 2 * j) {
-            bm.setElement(2 * i, 2 * j, bm.getElement(2 * i + 1, 2 * j) + a[x + 1][y]);
+        if (2 * i + 1 <= 2 * j) {
+            bm.addValueToElement(2 * i + 1, 2 * j, a[x + 1][y]);
         }
-        if (2 * i < 2 * j + 1) {
-            bm.setElement(2 * i, 2 * j, bm.getElement(2 * i, 2 * j + 1) + a[x][y + 1]);
-        }
-        if (2 * i + 1 < 2 * j + 1) {
-            bm.setElement(2 * i + 1, 2 * j + 1, bm.getElement(2 * i + 1, 2 * j + 1) + a[x + 1][y + 1]);
+        if (2 * i <= 2 * j + 1) {
+            bm.addValueToElement(2 * i, 2 * j + 1, a[x][y + 1]);
         }
 
     }
@@ -187,5 +189,22 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
 
         return C;
     }
-    
+
+    private static int getBandLength(boolean[][] matrix){
+        LOG.debug("[ matrix : {}",matrix);
+        int maxLength = 0;
+        for (int i = 0; i < matrix.length; i++) {
+            int tempLength = 0;
+            for (int j = matrix[i].length - 1; j >= i; j--) {
+                if (matrix[i][j]){
+                    tempLength = (j-i)+1;
+                    break;
+                }
+            }
+            if (tempLength > maxLength) maxLength = tempLength;
+        }
+        LOG.debug("] (return {})",maxLength);
+        return maxLength;
+    }
+
 }

@@ -5,6 +5,8 @@ public interface BandedMatrix
 
     void setElement(int row, int col, double element);
 
+    void addValueToElement(int row, int col, double value);
+
     double getElement(int row, int col);
 
     /**
