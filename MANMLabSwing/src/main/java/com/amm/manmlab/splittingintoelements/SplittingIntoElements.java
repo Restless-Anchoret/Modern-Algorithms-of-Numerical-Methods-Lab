@@ -18,10 +18,49 @@ public class SplittingIntoElements
     private Point[] points;
     private final LinkedList<Integer> connects = new LinkedList<>();
 
+    public List<Element> splitting(PointsWithAdjacencyMatrix pointsWithAdjacencyMatrix)
+    {
+        PointsWithAdjacencyMatrix innerMatrix = pointsWithAdjacencyMatrix.clone();
+        points = innerMatrix.getPoints();
+        adjacencyMatrix = innerMatrix.getAdjacencyMatrix();
+        length = adjacencyMatrix.length;
+        for (int i = 0; i < length; i++)
+        {
+            for (int j = 0; j < length; j++)
+            {
+                if (adjacencyMatrix[i][j] && i != j)
+                {
+                    connects.add(j);
+                }
+
+            }
+            for (int j = 0; j < connects.size(); j++)
+            {
+                for (int k = 0; k < connects.size(); k++)
+                {
+                    if (adjacencyMatrix[connects.get(j)][connects.get(k)] && k != j)
+                    {
+                        checkDirection(i, connects.get(j), connects.get(k));
+
+                    }
+                }
+
+            }
+            for (int j = 0; j < length; j++)
+            {
+                adjacencyMatrix[i][j] = false;
+                adjacencyMatrix[j][i] = false;
+            }
+            connects.clear();
+        }
+        return listOfElements;
+    }
+
     public List<Element> splittingBad(PointsWithAdjacencyMatrix pointsWithAdjacencyMatrix)
     {
-        points = pointsWithAdjacencyMatrix.getPoints();
-        adjacencyMatrix = pointsWithAdjacencyMatrix.getAdjacencyMatrix();
+        PointsWithAdjacencyMatrix innerMatrix = pointsWithAdjacencyMatrix.clone();
+        points = innerMatrix.getPoints();
+        adjacencyMatrix = innerMatrix.getAdjacencyMatrix();
         length = adjacencyMatrix.length;
         for (int i = 0; i < length; i++)
         {
@@ -117,40 +156,4 @@ public class SplittingIntoElements
         return false;
     }
 
-    public List<Element> splitting(PointsWithAdjacencyMatrix pointsWithAdjacencyMatrix)
-    {
-        points = pointsWithAdjacencyMatrix.getPoints();
-        adjacencyMatrix = pointsWithAdjacencyMatrix.getAdjacencyMatrix();
-        length = adjacencyMatrix.length;
-        for (int i = 0; i < length; i++)
-        {
-            for (int j = 0; j < length; j++)
-            {
-                if (adjacencyMatrix[i][j] && i != j)
-                {
-                    connects.add(j);
-                }
-
-            }
-            for (int j = 0; j < connects.size(); j++)
-            {
-                for (int k = 0; k < connects.size(); k++)
-                {
-                    if (adjacencyMatrix[connects.get(j)][connects.get(k)] && k != j)
-                    {
-                        checkDirection(i, connects.get(j), connects.get(k));
-
-                    }
-                }
-
-            }
-            for (int j = 0; j < length; j++)
-            {
-                adjacencyMatrix[i][j] = false;
-                adjacencyMatrix[j][i] = false;
-            }
-            connects.clear();
-        }
-        return listOfElements;
-    }
 }
