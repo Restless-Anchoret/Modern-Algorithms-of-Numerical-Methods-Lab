@@ -14,28 +14,35 @@ public class BandedMatrixImpl implements BandedMatrix
     private final double[][] matrix;
 
     @Override
-    public void setElement(int row, int col, double element){
-        if (col > row) {//Мы всегда работаем с нижней половиной матрицы
+    public void setElement(int row, int col, double element)
+    {
+        if (col > row)
+        {//Мы всегда работаем с нижней половиной матрицы
             int tmp = col;
             col = row;
             row = tmp;
         }
-        if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1))) {
+        if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1)))
+        {
             LOG.error("Out of band");
         }
-        else {
+        else
+        {
             matrix[row][col - row + getBandSize()] = element;
         }
     }
 
     @Override
-    public double getElement(int row, int col) {
-        if (col > row) {//Мы всегда работаем с нижней половиной матрицы
+    public double getElement(int row, int col)
+    {
+        if (col > row)
+        {//Мы всегда работаем с нижней половиной матрицы
             int tmp = col;
             col = row;
             row = tmp;
         }
-        if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1))) {
+        if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1)))
+        {
             LOG.error("Out of band");
             return 0;
         }
@@ -58,17 +65,20 @@ public class BandedMatrixImpl implements BandedMatrix
     }
 
     @Override
-    public void addValueToElement(int row, int col, double value) {
+    public void addValueToElement(int row, int col, double value)
+    {
         setElement(row, col, getElement(row, col) + value);
     }
 
     @Override
-    public int getRowSize() {
+    public int getRowSize()
+    {
         return rowOfMatrix;
     }
 
     @Override
-    public int getBandSize() {
+    public int getBandSize()
+    {
         return bandOfMatrix;
     }
 
@@ -83,6 +93,24 @@ public class BandedMatrixImpl implements BandedMatrix
         this.rowOfMatrix = rowOfMatrix;
         this.bandOfMatrix = bandOfMatrix;
         this.matrix = new double[rowOfMatrix][bandOfMatrix + 1];
+    }
+
+    private BandedMatrixImpl(double[][] newMatrix, int rowOfMatrix, int bandOfMatrix)
+    {
+        this.rowOfMatrix = rowOfMatrix;
+        this.bandOfMatrix = bandOfMatrix;
+        this.matrix = newMatrix;
+    }
+
+    @Override
+    public BandedMatrixImpl clone()
+    {
+        double[][] newMatrix = new double[rowOfMatrix][bandOfMatrix + 1];
+        for (int i = 0; i < rowOfMatrix; i++)
+        {
+            System.arraycopy(matrix[i], 0, newMatrix[i], 0, bandOfMatrix + 1);
+        }
+        return new BandedMatrixImpl(newMatrix, rowOfMatrix, bandOfMatrix);
     }
 
 }
