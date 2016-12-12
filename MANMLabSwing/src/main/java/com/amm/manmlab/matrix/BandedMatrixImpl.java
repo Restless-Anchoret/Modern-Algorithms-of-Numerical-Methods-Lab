@@ -95,22 +95,4 @@ public class BandedMatrixImpl implements BandedMatrix
         this.matrix = new double[rowOfMatrix][bandOfMatrix + 1];
     }
 
-    private BandedMatrixImpl(double[][] newMatrix, int rowOfMatrix, int bandOfMatrix)
-    {
-        this.rowOfMatrix = rowOfMatrix;
-        this.bandOfMatrix = bandOfMatrix;
-        this.matrix = newMatrix;
-    }
-
-    @Override
-    public BandedMatrixImpl clone()
-    {
-        double[][] newMatrix = new double[rowOfMatrix][bandOfMatrix + 1];
-        for (int i = 0; i < rowOfMatrix; i++)
-        {
-            System.arraycopy(matrix[i], 0, newMatrix[i], 0, bandOfMatrix + 1);
-        }
-        return new BandedMatrixImpl(newMatrix, rowOfMatrix, bandOfMatrix);
-    }
-
 }

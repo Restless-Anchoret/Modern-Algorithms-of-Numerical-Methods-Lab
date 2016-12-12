@@ -18,6 +18,4 @@ public interface BandedMatrix
     int getRowSize();
 
     int getBandSize();
-    
-    BandedMatrix clone();
 }
