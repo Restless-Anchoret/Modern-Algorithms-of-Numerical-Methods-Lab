@@ -200,9 +200,11 @@ public class MainController {
     
     private void makeResulting() {
         try {
+            if(!isNotNull(borderConditions))
+                throw new IllegalStateException(ErrorMessages.CONDITIONS_ARE_NOT_SELECTED.getMessage());
             finiteElementsResult = finiteElementMethodAlgorithm.doAlgorithm(
                     new FiniteElementMethodInput(pointsMatrixAfterRenumbering, 
-                    mainFrame.getFiniteCoeff(1), mainFrame.getFiniteCoeff(2), borderConditions));
+                    mainFrame.getFiniteCoeff(1), mainFrame.getFiniteCoeff(2), borderConditions)); 
         } catch (Exception ex) {
             LOG.error(ex.getMessage(), ex);
             showMessage(ex.getMessage());
@@ -213,6 +215,17 @@ public class MainController {
     
     private void showMessage(String message) {
         JOptionPane.showMessageDialog(mainFrame, message, "Exception", JOptionPane.INFORMATION_MESSAGE);
+    }
+    
+    private boolean isNotNull(Double[] array){
+        boolean res = false;
+        for(Double d : array){
+            if(d != null){
+                res = true;
+                break;
+            }
+        }
+        return res;
     }
 
 }

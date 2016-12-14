@@ -18,7 +18,9 @@ public enum ErrorMessages {
 
     POINTS_SIZE_DOESNT_EQUAL_ADJECENCY_MATRIX_SIZE("Points size doesn't equal adjacencyMatrix size!"),
 
-    GRID_MUST_BE_POLYGON("Grid must be a polygon!");
+    GRID_MUST_BE_POLYGON("Grid must be a polygon!"),
+    
+    CONDITIONS_ARE_NOT_SELECTED("Conditions are not selected!");
     
     private final String message;
 

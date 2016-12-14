@@ -75,26 +75,26 @@
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel1">
       <Properties>
-        <Property name="text" type="java.lang.String" value="ratio"/>
+        <Property name="text" type="java.lang.String" value="&#x41a;&#x43e;&#x44d;&#x444;. &#x41f;&#x443;&#x430;&#x441;&#x441;&#x43e;&#x43d;&#x430;"/>
         <Property name="toolTipText" type="java.lang.String" value=""/>
       </Properties>
     </Component>
     <Component class="javax.swing.JLabel" name="jLabel2">
       <Properties>
-        <Property name="text" type="java.lang.String" value="modulus"/>
+        <Property name="text" type="java.lang.String" value="&#x41c;&#x43e;&#x434;&#x443;&#x43b;&#x44c; &#x42e;&#x43d;&#x433;&#x430;"/>
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="ratioSpinner">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="0.1" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.1" type="number"/>
+          <SpinnerModel initial="0.2" maximum="0.999999" minimum="0.0" numberType="java.lang.Float" stepSize="0.1" type="number"/>
         </Property>
       </Properties>
     </Component>
     <Component class="javax.swing.JSpinner" name="modulusSpinner">
       <Properties>
         <Property name="model" type="javax.swing.SpinnerModel" editor="org.netbeans.modules.form.editors2.SpinnerModelEditor">
-          <SpinnerModel initial="0.1" maximum="1.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.1" type="number"/>
+          <SpinnerModel initial="0.1" maximum="9999999.0" minimum="0.0" numberType="java.lang.Float" stepSize="0.1" type="number"/>
         </Property>
         <Property name="name" type="java.lang.String" value="" noResource="true"/>
       </Properties>

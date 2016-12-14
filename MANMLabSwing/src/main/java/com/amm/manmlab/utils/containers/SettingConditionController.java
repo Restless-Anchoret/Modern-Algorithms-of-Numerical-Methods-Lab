@@ -20,7 +20,7 @@ public class SettingConditionController implements ImagePanelListener {
         int chosenPointIndex = paintStrategy.getChosenPointIndex();
         int pointIndex = findPointIndex(x, y);
         if (chosenPointIndex == -1) {        
-            if(paintStrategy.equalPointExists(pointIndex))
+            //if(paintStrategy.equalPointExists(pointIndex))
                 if (pointIndex == -1) {
                     
                 } else {

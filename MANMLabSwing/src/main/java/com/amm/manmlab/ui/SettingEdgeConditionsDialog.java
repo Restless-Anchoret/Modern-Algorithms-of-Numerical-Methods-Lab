@@ -29,14 +29,14 @@ public class SettingEdgeConditionsDialog extends JPanel {
             }
         });
 
-        jLabel1.setText("ratio");
+        jLabel1.setText("Коэф. Пуассона");
         jLabel1.setToolTipText("");
 
-        jLabel2.setText("modulus");
+        jLabel2.setText("Модуль Юнга");
 
-        ratioSpinner.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.1f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.1f)));
+        ratioSpinner.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.2f), Float.valueOf(0.0f), Float.valueOf(0.999999f), Float.valueOf(0.1f)));
 
-        modulusSpinner.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.1f), Float.valueOf(0.0f), Float.valueOf(1.0f), Float.valueOf(0.1f)));
+        modulusSpinner.setModel(new javax.swing.SpinnerNumberModel(Float.valueOf(0.1f), Float.valueOf(0.0f), Float.valueOf(9999999.0f), Float.valueOf(0.1f)));
         modulusSpinner.setName(""); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
