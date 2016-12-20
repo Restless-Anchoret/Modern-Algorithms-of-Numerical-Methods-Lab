@@ -3,7 +3,6 @@ package com.amm.manmlab.utils.containers;
 import com.amm.manmlab.utils.primitives.Edge;
 import com.amm.manmlab.utils.primitives.Point;
 import java.util.ArrayList;
-import java.util.Collections;
 
 import java.util.List;
 
@@ -27,7 +26,10 @@ public class PointsWithEdges {
 
     @Override
     public String toString() {
-        return "PointsWithEdges{" + "edges=" + edges + ", points=" + points + '}';
+        StringBuilder sb = new StringBuilder("PointsWithEdges{");
+        sb.append("edges=").append(edges);
+        sb.append(", points=").append(points).append('}');
+        return sb.toString();
     }
 
     @Override

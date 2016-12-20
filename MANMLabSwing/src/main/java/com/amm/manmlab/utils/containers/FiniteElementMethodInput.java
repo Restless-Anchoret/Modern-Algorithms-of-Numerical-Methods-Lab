@@ -35,7 +35,12 @@ public class FiniteElementMethodInput {
 
     @Override
     public String toString() {
-        return "FiniteElementMethodInput{" + "pointsWithAdjacencyMatrix=" + pointsWithAdjacencyMatrix + ", poissonsRatio=" + poissonsRatio + ", youngsModulus=" + youngsModulus + ", borderConditions=" + borderConditions + '}';
+        StringBuilder sb = new StringBuilder("FiniteElementMethodInput{");
+        sb.append(", poissonsRatio=").append(poissonsRatio);
+        sb.append(", youngsModulus=").append(youngsModulus);
+        sb.append(", borderConditions=").append(borderConditions);
+        sb.append("pointsWithAdjacencyMatrix=").append(pointsWithAdjacencyMatrix).append("}");
+        return sb.toString();
     }
     
 }

@@ -3,7 +3,7 @@ package com.amm.manmlab.algorithms.finiteelement;
 import com.amm.manmlab.algorithms.Algorithm;
 import com.amm.manmlab.matrix.BandedMatrix;
 import com.amm.manmlab.matrix.BandedMatrixImpl;
-import com.amm.manmlab.splittingintoelements.SplittingIntoElements;
+import com.amm.manmlab.algorithms.splittingintoelements.SplittingIntoElements;
 import com.amm.manmlab.utils.primitives.Element;
 import com.amm.manmlab.utils.containers.FiniteElementMethodInput;
 import com.amm.manmlab.utils.containers.PointsWithAdjacencyMatrix;

@@ -26,7 +26,7 @@ public class Element {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Element{");
+        StringBuilder sb = new StringBuilder("Element{");
         sb.append("i=").append(i);
         sb.append(", j=").append(j);
         sb.append(", k=").append(k);

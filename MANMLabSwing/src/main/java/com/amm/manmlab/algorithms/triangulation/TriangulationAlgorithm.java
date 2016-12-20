@@ -39,21 +39,20 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
         List<Edge> edges = data.getEdges();
         List<Point> points = data.getPoints();
         
-        data.toString();
-        ArrayList<Integer> neighbor=new ArrayList<Integer>();
-        ArrayList<Integer> circle=new ArrayList<Integer>();
+        ArrayList<Integer> neighbor=new ArrayList<>();
+        ArrayList<Integer> circle=new ArrayList<>();
         
-        ArrayList <Point> newPoint=new ArrayList<Point>();
-        ArrayList<Integer> newPointIndex=new ArrayList<Integer>();
+        ArrayList<Point> newPoint=new ArrayList<>();
+        ArrayList<Integer> newPointIndex=new ArrayList<>();
         
-        Edge ed=new Edge(-1,-1);
+        Edge ed = null;
         
         int count=0;
         
-        ArrayList<Point> gran=new ArrayList<Point>();
-        ArrayList<Point> internal=new ArrayList<Point>();
-        ArrayList<Integer> internalIndex=new ArrayList<Integer>();
-        ArrayList<Integer> granIndex=new ArrayList<Integer>();
+        ArrayList<Point> gran=new ArrayList<>();
+        ArrayList<Point> internal=new ArrayList<>();
+        ArrayList<Integer> internalIndex=new ArrayList<>();
+        ArrayList<Integer> granIndex=new ArrayList<>();
         for (int i=0;i<points.size();i++)
         {
             neighbor.clear();
@@ -163,7 +162,7 @@ public class TriangulationAlgorithm implements Algorithm<PointsWithEdges, Points
            newPointIndex.add(internalIndex.get(i));
         }
        
-        ArrayList<Point> resultPoint=new ArrayList<Point>();
+        ArrayList<Point> resultPoint=new ArrayList<>();
       
         for (int i=0;i<points.size();i++)
         {

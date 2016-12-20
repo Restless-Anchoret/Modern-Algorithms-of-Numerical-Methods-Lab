@@ -35,7 +35,7 @@ public class Edge {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Edge{");
+        StringBuilder sb = new StringBuilder("Edge{");
         sb.append("firstIndex=").append(firstIndex);
         sb.append(", secondIndex=").append(secondIndex);
         sb.append('}');

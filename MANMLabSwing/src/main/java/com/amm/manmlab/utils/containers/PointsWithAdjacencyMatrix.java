@@ -52,9 +52,10 @@ public class PointsWithAdjacencyMatrix {
 
     @Override
     public String toString() {
-        return "PointsWithAdjacencyMatrix{" +
-                "adjacencyMatrix=" + Arrays.deepToString(adjacencyMatrix) +
-                ", points=" + Arrays.deepToString(points) + '}';
+        StringBuilder sb = new StringBuilder("PointsWithAdjacencyMatrix{");
+        sb.append("adjacencyMatrix=").append(Arrays.deepToString(adjacencyMatrix));
+        sb.append(", points=").append(Arrays.deepToString(points)).append('}');
+        return sb.toString();
     }
 
     @Override

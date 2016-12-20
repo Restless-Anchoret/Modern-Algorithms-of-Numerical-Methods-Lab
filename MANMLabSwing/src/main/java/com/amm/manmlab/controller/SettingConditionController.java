@@ -1,6 +1,5 @@
 package com.amm.manmlab.controller;
 
-import com.amm.manmlab.controller.MatrixPaintStrategy;
 import com.amm.manmlab.ui.ImagePanel;
 import com.amm.manmlab.ui.ImagePanelListener;
 import com.amm.manmlab.utils.LabConstants;
@@ -19,15 +18,12 @@ public class SettingConditionController implements ImagePanelListener {
         Point[] points = paintStrategy.getPointsMatrix();
         int chosenPointIndex = paintStrategy.getChosenPointIndex();
         int pointIndex = findPointIndex(x, y);
-        if (chosenPointIndex == -1) {        
-            //if(paintStrategy.equalPointExists(pointIndex))
-                if (pointIndex == -1) {
-                    
-                } else {
-                    paintStrategy.setChosenPointIndex(pointIndex);
-                }
+        if (chosenPointIndex == -1) {
+            if (pointIndex != -1) {
+                paintStrategy.setChosenPointIndex(pointIndex);
+            }
         } else {
-            if (pointIndex == -1) {
+            if (pointIndex != chosenPointIndex) {
                 paintStrategy.setBorderCondition(chosenPointIndex, 
                         x - points[chosenPointIndex].getX(), 
                         y - points[chosenPointIndex].getY());

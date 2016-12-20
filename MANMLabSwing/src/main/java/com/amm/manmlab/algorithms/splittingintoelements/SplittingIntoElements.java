@@ -1,4 +1,4 @@
-package com.amm.manmlab.splittingintoelements;
+package com.amm.manmlab.algorithms.splittingintoelements;
 
 import com.amm.manmlab.utils.containers.PointsWithAdjacencyMatrix;
 import com.amm.manmlab.utils.primitives.Element;

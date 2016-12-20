@@ -42,4 +42,15 @@ public class PathPoint extends Point {
     public Point toPoint() {
         return new Point(getX(), getY());
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("Point{");
+        sb.append("index=").append(index);
+        sb.append(", x=").append(getX());
+        sb.append(", y=").append(getY());
+        sb.append('}');
+        return sb.toString();
+    }
+    
 }

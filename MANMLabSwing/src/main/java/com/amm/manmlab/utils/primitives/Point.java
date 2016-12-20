@@ -38,7 +38,7 @@ public class Point {
 
     @Override
     public String toString() {
-        final StringBuffer sb = new StringBuffer("Point{");
+        StringBuilder sb = new StringBuilder("Point{");
         sb.append("x=").append(x);
         sb.append(", y=").append(y);
         sb.append('}');
