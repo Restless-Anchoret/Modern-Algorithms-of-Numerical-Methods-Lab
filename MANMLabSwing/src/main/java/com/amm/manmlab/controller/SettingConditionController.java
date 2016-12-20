@@ -1,4 +1,4 @@
-package com.amm.manmlab.utils.containers;
+package com.amm.manmlab.controller;
 
 import com.amm.manmlab.controller.MatrixPaintStrategy;
 import com.amm.manmlab.ui.ImagePanel;
@@ -54,17 +54,13 @@ public class SettingConditionController implements ImagePanelListener {
     }
 
     @Override
-    public void mouseLeftDragged(ImagePanel imagePanel, int previousX, int previousY, int x, int y, int width, int height) {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-    }
+    public void mouseLeftDragged(ImagePanel imagePanel, int previousX, int previousY, int x, int y, int width, int height) { }
 
     @Override
-    public void mouseMiddleDragged(ImagePanel imagePanel, int previousX, int previousY, int x, int y, int width, int height) {
-    }
+    public void mouseMiddleDragged(ImagePanel imagePanel, int previousX, int previousY, int x, int y, int width, int height) { }
 
     @Override
-    public void mouseRightDragged(ImagePanel imagePanel, int previousX, int previousY, int x, int y, int width, int height) {
-    }
+    public void mouseRightDragged(ImagePanel imagePanel, int previousX, int previousY, int x, int y, int width, int height) { }
 
     @Override
     public void mouseMovedWithoutPressedButtons(ImagePanel imagePanel, int previousX, int previousY, int x, int y, int width, int height) {

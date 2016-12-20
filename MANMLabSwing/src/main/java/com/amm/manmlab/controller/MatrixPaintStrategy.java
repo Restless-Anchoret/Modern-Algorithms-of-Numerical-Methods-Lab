@@ -9,6 +9,7 @@ import com.amm.manmlab.utils.primitives.Point;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.util.Arrays;
 
 public class MatrixPaintStrategy implements ImagePanelPaintStrategy {
     
@@ -121,10 +122,8 @@ public class MatrixPaintStrategy implements ImagePanelPaintStrategy {
     }
     
     @Override
-    public void paint(Graphics2D graphics, int width, int height) { 
-        
+    public void paint(Graphics2D graphics, int width, int height) {
         int matDim = pointsWithMatrix.getPoints().length;
-        
         for(int i=0; i<matDim; i++) {
             for(int j=i+1; j<matDim; j++) {
                 if(pointsWithMatrix.getAdjacencyMatrix()[i][j])
@@ -149,16 +148,7 @@ public class MatrixPaintStrategy implements ImagePanelPaintStrategy {
                             break;
                         case DialogPanel.RESULT_DIALOG:
                             if(showInitial){
-                                graphics.setColor(Color.RED);
-                                graphics.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{6}, 0));
-
-                                boolean bord = !conditionIsNull(i);
-                                graphics.drawLine((int)first.getX(), (int)first.getY(), 
-                                        (int)(first.getX() + (bord ? borderConditions[2*i] : 0 )), 
-                                        (int)(first.getY() + (bord ? borderConditions[2*i+1] : 0 )));
-
                                 graphics.setStroke(new BasicStroke(1));
-                                
                                 graphics.setColor(Color.GREEN);
                                 graphics.drawLine((int)first.getX(), (int)first.getY(),
                                     (int)second.getX(), (int)second.getY());
@@ -211,8 +201,9 @@ public class MatrixPaintStrategy implements ImagePanelPaintStrategy {
                                 verticeDiameter, verticeDiameter);
                     }
 
-                    if (chosenPointIndex != -1) {
+                    if (chosenPointIndex == i) {
                         graphics.setColor(Color.GRAY);
+                        graphics.setStroke(new BasicStroke(2.0f));
                         Point chosenPoint = pointsWithMatrix.getPoints()[chosenPointIndex];
                         int radius = LabConstants.VERTICE_CAPTURE_RADIUS;
                         graphics.drawOval((int)chosenPoint.getX() - radius, (int)chosenPoint.getY() - radius, 
@@ -221,14 +212,24 @@ public class MatrixPaintStrategy implements ImagePanelPaintStrategy {
                     }
                     break;
                 case DialogPanel.RESULT_DIALOG:
-                    if (!conditionIsNull(i))
+                    if (!conditionIsNull(i)) {
+                        if (showInitial) {
+                            graphics.setColor(Color.RED);
+                            graphics.setStroke(new BasicStroke(1, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{6}, 0));
+                            graphics.drawLine((int)point.getX(), (int)point.getY(), 
+                                    (int)(point.getX() + borderConditions[2*i]), 
+                                    (int)(point.getY() + borderConditions[2*i+1]));
+                        }
+                        graphics.setColor(Color.BLACK);
+                        graphics.setStroke(new BasicStroke(1));
                         graphics.fillOval(
                             (int)(point.getX()+borderConditions[i*2]) - verticeRadius, 
                             (int)(point.getY()+borderConditions[i*2+1]) - verticeRadius,
                             verticeDiameter, verticeDiameter);
-                    else
+                    } else {
                         graphics.fillOval((int)point.getX() - verticeRadius, (int)point.getY() - verticeRadius,
                                 verticeDiameter, verticeDiameter);
+                    }
                     break;
             }
                             

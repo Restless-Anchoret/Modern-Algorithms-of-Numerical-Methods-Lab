@@ -8,8 +8,6 @@ import com.amm.manmlab.ui.MainFrame;
 import com.amm.manmlab.utils.containers.FiniteElementMethodInput;
 import com.amm.manmlab.utils.containers.PointsWithAdjacencyMatrix;
 import com.amm.manmlab.utils.containers.PointsWithEdges;
-import com.amm.manmlab.utils.containers.SettingConditionController;
-import com.amm.manmlab.utils.primitives.Point;
 import java.awt.event.ItemEvent;
 import java.util.ArrayList;
 import javax.swing.JOptionPane;

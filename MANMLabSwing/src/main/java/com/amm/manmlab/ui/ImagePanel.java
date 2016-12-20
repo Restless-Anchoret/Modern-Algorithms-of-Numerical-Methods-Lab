@@ -1,5 +1,6 @@
 package com.amm.manmlab.ui;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
@@ -125,6 +126,7 @@ public class ImagePanel extends JPanel {
         graphics2D.fillRect(0, 0, imageWidth - 1, imageHeight - 1);
         imagePanelPaintStrategy.paint(graphics2D, imageWidth, imageHeight);
         graphics2D.setColor(FRAME_COLOR);
+        graphics2D.setStroke(new BasicStroke(1));
         graphics2D.drawRect(0, 0, imageWidth - 1, imageHeight - 1);
         graphics.drawImage(image, 0, 0, this);
     }
