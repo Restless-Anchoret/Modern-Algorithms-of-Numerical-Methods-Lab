@@ -6,7 +6,7 @@ import com.amm.manmlab.matrix.BandedMatrix;
  * Контейнер для результата алгоритма добавления граничных условий
  * @author Aleksandr Pyatakov
  */
-class BorderConditionsProcesorOutput {
+class BorderConditionsProcessorOutput {
 
     /**
      * Преобразованная ленточная матрица, которую можно передавать
@@ -19,7 +19,7 @@ class BorderConditionsProcesorOutput {
      */
     private final Double[] rightHandSide;
 
-    BorderConditionsProcesorOutput(BandedMatrix processedMatrix, Double[] rightHandSide) {
+    BorderConditionsProcessorOutput(BandedMatrix processedMatrix, Double[] rightHandSide) {
         this.processedMatrix = processedMatrix;
         this.rightHandSide = rightHandSide;
     }

@@ -49,6 +49,7 @@ public class BandedMatrixImpl implements BandedMatrix
         return matrix[row][col - row + getBandSize()];
     }
 
+    @Deprecated
     @Override
     public double[][] getFullMatrix()
     {
@@ -93,6 +94,15 @@ public class BandedMatrixImpl implements BandedMatrix
         this.rowOfMatrix = rowOfMatrix;
         this.bandOfMatrix = bandOfMatrix;
         this.matrix = new double[rowOfMatrix][bandOfMatrix + 1];
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("BandedMatrixImpl{");
+        sb.append("rowOfMatrix=").append(rowOfMatrix);
+        sb.append(", bandOfMatrix=").append(bandOfMatrix);
+        sb.append(", matrix=").append(matrix).append('}');
+        return sb.toString();
     }
 
 }

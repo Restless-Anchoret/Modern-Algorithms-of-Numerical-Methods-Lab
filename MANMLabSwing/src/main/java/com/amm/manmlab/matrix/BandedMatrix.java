@@ -13,6 +13,7 @@ public interface BandedMatrix
      *
      * @return Возвращает всю матрицу в виде NxN.
      */
+    @Deprecated
     double[][] getFullMatrix();
 
     int getRowSize();

@@ -13,12 +13,12 @@ import java.util.Arrays;
  *
  * @author Aleksandr Pyatakov
  */
-class BorderConditionsProcessor implements Algorithm<BorderConditionProcessorInput, BorderConditionsProcesorOutput> {
+class BorderConditionsProcessor implements Algorithm<BorderConditionProcessorInput, BorderConditionsProcessorOutput> {
 
     private static final Logger LOG = LoggerFactory.getLogger(BorderConditionsProcessor.class);
 
     @Override
-    public BorderConditionsProcesorOutput doAlgorithm(BorderConditionProcessorInput borderConditionProcessorInput) {
+    public BorderConditionsProcessorOutput doAlgorithm(BorderConditionProcessorInput borderConditionProcessorInput) {
 
         BandedMatrix inputMatrix = borderConditionProcessorInput.getInitialMatrix();
         Double[] borderConditions = borderConditionProcessorInput.getBorderConditions();
@@ -71,7 +71,7 @@ class BorderConditionsProcessor implements Algorithm<BorderConditionProcessorInp
 
         LOG.debug("Матрица после добавления граничных условий", Arrays.deepToString(inputMatrix.getFullMatrix()));
 
-        return new BorderConditionsProcesorOutput(inputMatrix, rightHandSide);
+        return new BorderConditionsProcessorOutput(inputMatrix, rightHandSide);
 
     }
 }

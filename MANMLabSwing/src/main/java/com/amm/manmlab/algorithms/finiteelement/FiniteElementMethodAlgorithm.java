@@ -5,7 +5,6 @@ import com.amm.manmlab.matrix.BandedMatrix;
 import com.amm.manmlab.matrix.BandedMatrixImpl;
 import com.amm.manmlab.algorithms.splittingintoelements.SplittingIntoElements;
 import com.amm.manmlab.utils.primitives.Element;
-import com.amm.manmlab.utils.containers.FiniteElementMethodInput;
 import com.amm.manmlab.utils.containers.PointsWithAdjacencyMatrix;
 import com.amm.manmlab.utils.primitives.Point;
 import java.util.Arrays;
@@ -21,11 +20,10 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
     @Override
     public Double[] doAlgorithm(FiniteElementMethodInput finiteElementMethodInput)
     {
-        LOG.debug("AdjacencyMatrix : {}", finiteElementMethodInput.getPointsWithAdjacencyMatrix().getAdjacencyMatrix());
-        LOG.debug("borderConditions = {}", Arrays.toString(finiteElementMethodInput.getBorderConditions()));
+        LOG.debug("finiteElementMethodInput = {}", finiteElementMethodInput);
         SplittingIntoElements splittingIntoElements = new SplittingIntoElements();
         List<Element> elements = splittingIntoElements.splitting(finiteElementMethodInput.getPointsWithAdjacencyMatrix());
-        LOG.debug("elements = {}", elements.size());
+        LOG.debug("elements size = {}", elements.size());
         LOG.debug("elements = {}", elements);
 
         
@@ -40,7 +38,6 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
 
         BandedMatrix bandedMatrix = calculateBandedMatrix(finiteElementMethodInput, elements);
         LOG.debug("bandedMatrix = {}", Arrays.deepToString(bandedMatrix.getFullMatrix()));
-        LOG.debug("borderConditions = {}", Arrays.deepToString(finiteElementMethodInput.getBorderConditions()));
         LOG.debug("bandedMatrix rowSize = {}", bandedMatrix.getRowSize());
 
         //Саша П.-
@@ -54,7 +51,7 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
                 bandedMatrix, finiteElementMethodInput.getBorderConditions());
         
         BorderConditionsProcessor borderConditionsProcessor = new BorderConditionsProcessor();
-        BorderConditionsProcesorOutput borderConditionsProcesorOutput = borderConditionsProcessor.doAlgorithm(borderConditionProcessorInput);
+        BorderConditionsProcessorOutput borderConditionsProcesorOutput = borderConditionsProcessor.doAlgorithm(borderConditionProcessorInput);
         LOG.debug("result banded matrix = {}", borderConditionsProcesorOutput);
         
         LOG.debug("result bandedMatrix = {}", Arrays.deepToString(borderConditionsProcesorOutput.getProcessedMatrix().getFullMatrix()));

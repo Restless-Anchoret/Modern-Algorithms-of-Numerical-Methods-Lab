@@ -1,4 +1,6 @@
-package com.amm.manmlab.utils.containers;
+package com.amm.manmlab.algorithms.finiteelement;
+
+import com.amm.manmlab.utils.containers.PointsWithAdjacencyMatrix;
 
 public class FiniteElementMethodInput {
 

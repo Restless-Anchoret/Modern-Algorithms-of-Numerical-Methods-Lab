@@ -5,7 +5,7 @@ import com.amm.manmlab.errors.ErrorMessages;
 import com.amm.manmlab.ui.DialogPanel;
 import com.amm.manmlab.utils.fileinput.FileInputLoader;
 import com.amm.manmlab.ui.MainFrame;
-import com.amm.manmlab.utils.containers.FiniteElementMethodInput;
+import com.amm.manmlab.algorithms.finiteelement.FiniteElementMethodInput;
 import com.amm.manmlab.utils.containers.PointsWithAdjacencyMatrix;
 import com.amm.manmlab.utils.containers.PointsWithEdges;
 import java.awt.event.ItemEvent;
