@@ -69,7 +69,7 @@ class BorderConditionsProcessor implements Algorithm<BorderConditionProcessorInp
                 }
             }
 
-        LOG.debug("Матрица после добавления граничных условий", Arrays.deepToString(inputMatrix.getFullMatrix()));
+        LOG.debug("Матрица после добавления граничных условий: {}", inputMatrix);
 
         return new BorderConditionsProcessorOutput(inputMatrix, rightHandSide);
 

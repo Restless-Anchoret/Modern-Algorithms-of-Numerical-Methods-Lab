@@ -3,7 +3,7 @@ package com.amm.manmlab.algorithms.splittingintoelements;
 import com.amm.manmlab.utils.containers.PointsWithAdjacencyMatrix;
 import com.amm.manmlab.utils.primitives.Element;
 import com.amm.manmlab.utils.primitives.Point;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +12,11 @@ public class SplittingIntoElements
 {
 
     private static final Logger LOG = LoggerFactory.getLogger(SplittingIntoElements.class);
-    private final List<Element> listOfElements = new LinkedList<>();
+    private final List<Element> listOfElements = new ArrayList<>();
     private int length;
     private boolean[][] adjacencyMatrix;
     private Point[] points;
-    private final LinkedList<Integer> connects = new LinkedList<>();
+    private final List<Integer> connects = new ArrayList<>();
 
     public List<Element> splitting(PointsWithAdjacencyMatrix pointsWithAdjacencyMatrix)
     {

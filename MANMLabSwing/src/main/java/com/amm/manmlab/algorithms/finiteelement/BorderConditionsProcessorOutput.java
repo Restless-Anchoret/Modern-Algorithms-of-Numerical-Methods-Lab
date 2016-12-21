@@ -1,6 +1,7 @@
 package com.amm.manmlab.algorithms.finiteelement;
 
 import com.amm.manmlab.matrix.BandedMatrix;
+import java.util.Arrays;
 
 /**
  * Контейнер для результата алгоритма добавления граничных условий
@@ -31,4 +32,14 @@ class BorderConditionsProcessorOutput {
     public Double[] getRightHandSide() {
         return rightHandSide;
     }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("BorderConditionsProcessorOutput{");
+        sb.append("processorMatrix=").append(processedMatrix);
+        sb.append(", rightHandSide=").append(Arrays.toString(rightHandSide));
+        sb.append('}');
+        return sb.toString();
+    }
+    
 }

@@ -37,8 +37,7 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
         //  общая матрица. Класс для неё напишет Лёша.
 
         BandedMatrix bandedMatrix = calculateBandedMatrix(finiteElementMethodInput, elements);
-        LOG.debug("bandedMatrix = {}", Arrays.deepToString(bandedMatrix.getFullMatrix()));
-        LOG.debug("bandedMatrix rowSize = {}", bandedMatrix.getRowSize());
+        LOG.debug("bandedMatrix = {}", bandedMatrix);
 
         //Саша П.-
         // input:
@@ -53,9 +52,6 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
         BorderConditionsProcessor borderConditionsProcessor = new BorderConditionsProcessor();
         BorderConditionsProcessorOutput borderConditionsProcesorOutput = borderConditionsProcessor.doAlgorithm(borderConditionProcessorInput);
         LOG.debug("result banded matrix = {}", borderConditionsProcesorOutput);
-        
-        LOG.debug("result bandedMatrix = {}", Arrays.deepToString(borderConditionsProcesorOutput.getProcessedMatrix().getFullMatrix()));
-        LOG.debug("result borderConditions = {}", Arrays.deepToString(borderConditionsProcesorOutput.getRightHandSide()));
 
         //Андрей
         // input:
@@ -116,7 +112,7 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
             move(4, 0, el.getK(), el.getI(), K, bm);
             move(4, 2, el.getK(), el.getJ(), K, bm);
             move(4, 4, el.getK(), el.getK(), K, bm);
-            System.out.println("ok");
+            LOG.debug("Element {} was processed", el);
         }
 
         return bm;
@@ -170,12 +166,6 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
         }
 
         double[][] C = new double[aRows][bColumns];
-        for (int i = 0; i < 2; i++) {
-            for (int j = 0; j < 2; j++) {
-                C[i][j] = 0.00000;
-            }
-        }
-
         for (int i = 0; i < aRows; i++) { // aRow
             for (int j = 0; j < bColumns; j++) { // bColumn
                 for (int k = 0; k < aColumns; k++) { // aColumn
@@ -188,7 +178,7 @@ public class FiniteElementMethodAlgorithm implements Algorithm<FiniteElementMeth
     }
 
     private static int getBandLength(boolean[][] matrix){
-        LOG.debug("[ matrix : {}",matrix);
+        LOG.debug("[ matrix : {}", Arrays.toString(matrix));
         int maxLength = 0;
         for (int i = 0; i < matrix.length; i++) {
             int tempLength = 0;

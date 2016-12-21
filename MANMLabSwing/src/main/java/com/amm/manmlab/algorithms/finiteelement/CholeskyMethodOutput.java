@@ -1,5 +1,7 @@
 package com.amm.manmlab.algorithms.finiteelement;
 
+import java.util.Arrays;
+
 /**
  *
  * @author Целыковский
@@ -15,6 +17,14 @@ class CholeskyMethodOutput {
     
     public Double[] getAnswerVertex(){
         return answerVertex;
+    }
+
+    @Override
+    public String toString() {
+        StringBuilder sb = new StringBuilder("CholeskyMethodOutput{");
+        sb.append(", answerVertex=").append(Arrays.toString(answerVertex));
+        sb.append('}');
+        return sb.toString();
     }
     
 }
