@@ -14,35 +14,27 @@ public class BandedMatrixImpl implements BandedMatrix
     private final double[][] matrix;
 
     @Override
-    public void setElement(int row, int col, double element)
-    {
-        if (col > row)
-        {//Мы всегда работаем с нижней половиной матрицы
+    public void setElement(int row, int col, double element) {
+        if (col > row) {//Мы всегда работаем с нижней половиной матрицы
             int tmp = col;
             col = row;
             row = tmp;
         }
-        if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1)))
-        {
+        if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1))) {
             LOG.error("Out of band");
-        }
-        else
-        {
+        } else {
             matrix[row][col - row + getBandSize()] = element;
         }
     }
 
     @Override
-    public double getElement(int row, int col)
-    {
-        if (col > row)
-        {//Мы всегда работаем с нижней половиной матрицы
+    public double getElement(int row, int col) {
+        if (col > row) {//Мы всегда работаем с нижней половиной матрицы
             int tmp = col;
             col = row;
             row = tmp;
         }
-        if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1)))
-        {
+        if ((row >= bandOfMatrix + 1) && (col <= row - (bandOfMatrix + 1))) {
             LOG.error("Out of band");
             return 0;
         }

@@ -12,20 +12,39 @@ import org.junit.Test;
 public class CholeskyTest extends Assert {
     
     @Test
-    public void test() {
+    public void testLittle() {
+        testWithParameters(6, 5, 3, 1e-8);
+    }
+    
+    @Test
+    public void testMiddle() {
+        testWithParameters(10, 50, 10, 1e-8);
+    }
+    
+    @Test
+    public void testBig() {
+        testWithParameters(10, 1000, 100, 1e-8);
+    }
+    
+    @Test
+    public void testHuge() {
+        testWithParameters(100, 10000, 100, 1e-8);
+    }
+    
+    private void testWithParameters(int numbersBound, int dimension, int band, double epsilon) {
+        System.out.println("numbersBound = " + numbersBound);
+        System.out.println("dimension = " + dimension);
+        System.out.println("band = " + band);
         Random random = new Random(0);
-        int numbersBound = 100;
-        int dimension = 1000;
-        int band = 100;
         BandedMatrix matrix = new BandedMatrixImpl(dimension, band);
         for (int i = 0; i < dimension; i++) {
             for (int j = i; j <= Math.min(dimension - 1, i + band); j++) {
-                matrix.setElement(i, j, random.nextInt(numbersBound));
+                matrix.setElement(i, j, ((int)(random.nextDouble() * numbersBound * 10)) / 10.0 + 0.1);
             }
         }
         double[] x = new double[dimension];
         for (int i = 0; i < dimension; i++) {
-            x[i] = random.nextInt(numbersBound);
+            x[i] = ((int)(random.nextDouble() * numbersBound * 10)) / 10.0 + 0.1;
         }
         Double[] rightSide = new Double[dimension];
         Arrays.fill(rightSide, 0.0);
@@ -45,7 +64,7 @@ public class CholeskyTest extends Assert {
         }
         System.out.println("Time: " + (finish.getTime() - start.getTime()) + " millis");
         System.out.println("Max error: " + maxError);
-        double epsilon = 1e-8;
+        System.out.println();
         assertTrue(Double.isFinite(maxError) && maxError < epsilon);
     }
     
